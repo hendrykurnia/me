@@ -353,26 +353,27 @@ function toggleDetails(header) {
     phone: "(669) 238-9972",
     linkedin: "https://linkedin.com/in/hendrykurnia",
     location: "Patterson, California, United States",
-    about: "I have 6+ years of experience in systems integration, automation, and business systems engineering, specializing in building reliable, scalable workflows across revenue and billing ecosystems...",
+    about: "I have 6+ years in systems integration and automation, building scalable workflows across revenue and billing systems. At Couchbase, I led integrations connecting Salesforce, NetSuite, Stripe, AWS, and internal platforms using SnapLogic, Workato, and Databricks. I’ve modernized billing pipelines, automated reconciliation, improved onboarding and payment flows, and maintain SOX-compliant documentation. I began in Salesforce administration and Sales Operations, then moved into designing API-based workflows and supporting the full quote-to-cash lifecycle.",
     skills: ["Systems Integration", "Sales Operations", "Data Warehouse", "Cloud Billing", "Workato", "SnapLogic", "Salesforce", "Databricks", "SOX Compliance", "Project Management"],
+    contact: "Email: hendry.itbizpro@gmail.com<br>Phone: (669)238-9972",
     experiences: [
       {
-        role: "Integrations Engineer - Couchbase",
+        role: "Integrations Engineer",
         date: "Aug 2024 - Nov 2025 | Remote",
         details: "Led integration initiatives connecting Salesforce, NetSuite, Stripe, Clazar.io, Tackle.io, AWS, and internal platforms using SnapLogic, Workato, and Databricks..."
       },
       {
-        role: "Integration Systems Analyst - Couchbase",
+        role: "Integration Systems Analyst",
         date: "Nov 2022 - Aug 2024 | Remote",
         details: "Designed and launched automated workflows, integrated cloud business systems, optimized pipelines..."
       },
       {
-        role: "Sales Operations Analyst / Salesforce Administrator - Couchbase",
+        role: "Sales Operations Analyst / Salesforce Administrator",
         date: "May 2020 - Nov 2022 | Hybrid",
         details: "Supported global Sales, Finance, Revenue, and Legal teams by resolving complex Salesforce CRM requests..."
       },
       {
-        role: "Junior Salesforce Administrator - Couchbase",
+        role: "Junior Salesforce Administrator",
         date: "Jul 2019 - May 2020 | On-site",
         details: "Resolved data integrity issues and configured core Salesforce features..."
       }
@@ -382,7 +383,7 @@ function toggleDetails(header) {
   function addMessage(text, sender) {
     const msg = document.createElement('div');
     msg.classList.add('chatbot-message', sender);
-    msg.textContent = text;
+    msg.innerHTML = text;
     messagesContainer.appendChild(msg);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
@@ -390,15 +391,16 @@ function toggleDetails(header) {
   function getResponse(input) {
     const lower = input.toLowerCase();
     if (lower.includes("name")) return profileData.name;
-    if (lower.includes("email") || lower.includes("contact")) return profileData.email;
+    if (lower.includes("email")) return profileData.email;
     if (lower.includes("phone") || lower.includes("call")) return profileData.phone;
-    if (lower.includes("linkedin")) return profileData.linkedin;
-    if (lower.includes("location") || lower.includes("where")) return profileData.location;
+    if (lower.includes("contact")) return profileData.contact;
+    if (lower.includes("linkedin") || lower.includes("website")) return profileData.linkedin;
+    if (lower.includes("location") || lower.includes("where") || lower.includes("address")) return profileData.location;
     if (lower.includes("skills")) return profileData.skills.join(", ");
     if (lower.includes("experience") || lower.includes("work") || lower.includes("job")) {
-      return profileData.experiences.map(e => `${e.role} (${e.date})`).join("\n");
+      return profileData.experiences.map(e => `${e.role} <br> (${e.date})`).join("<br><br>");
     }
-    if (lower.includes("about") || lower.includes("bio")) return profileData.about;
+    if (lower.includes("about") || lower.includes("bio") || lower.includes("profile")) return profileData.about;
     return "Sorry, I can only answer questions about my profile, skills, experiences, and contact info.";
   }
 
