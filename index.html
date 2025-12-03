@@ -269,5 +269,149 @@ function toggleDetails(header) {
 }
 </script>
 
+<!-- Chatbot Widget -->
+<div id="chatbot-container">
+  <div id="chatbot-header">💬 Chat with Hendry</div>
+  <div id="chatbot-messages"></div>
+  <input type="text" id="chatbot-input" placeholder="Ask me about my experience, skills, or contact info..." />
+</div>
+
+<style>
+  #chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    z-index: 9999;
+  }
+
+  #chatbot-header {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #chatbot-messages {
+    flex: 1;
+    padding: 0.5rem;
+    overflow-y: auto;
+    font-size: 0.9rem;
+  }
+
+  .chatbot-message {
+    margin-bottom: 0.5rem;
+  }
+
+  .chatbot-message.user {
+    text-align: right;
+    color: #2575fc;
+  }
+
+  .chatbot-message.bot {
+    text-align: left;
+    color: #1f2937;
+  }
+
+  #chatbot-input {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+</style>
+
+<script>
+  const messagesContainer = document.getElementById('chatbot-messages');
+  const inputField = document.getElementById('chatbot-input');
+  const header = document.getElementById('chatbot-header');
+  let isOpen = true;
+
+  // Toggle chatbot visibility
+  header.addEventListener('click', () => {
+    isOpen = !isOpen;
+    messagesContainer.style.display = isOpen ? 'block' : 'none';
+    inputField.style.display = isOpen ? 'block' : 'none';
+  });
+
+  // Your profile data
+  const profileData = {
+    name: "Hendry Kurnia",
+    email: "hendry.itbizpro@gmail.com",
+    phone: "(669) 238-9972",
+    linkedin: "https://linkedin.com/in/hendrykurnia",
+    location: "Patterson, California, United States",
+    about: "I have 6+ years of experience in systems integration, automation, and business systems engineering, specializing in building reliable, scalable workflows across revenue and billing ecosystems...",
+    skills: ["Systems Integration", "Sales Operations", "Data Warehouse", "Cloud Billing", "Workato", "SnapLogic", "Salesforce", "Databricks", "SOX Compliance", "Project Management"],
+    experiences: [
+      {
+        role: "Integrations Engineer - Couchbase",
+        date: "Aug 2024 - Nov 2025 | Remote",
+        details: "Led integration initiatives connecting Salesforce, NetSuite, Stripe, Clazar.io, Tackle.io, AWS, and internal platforms using SnapLogic, Workato, and Databricks..."
+      },
+      {
+        role: "Integration Systems Analyst - Couchbase",
+        date: "Nov 2022 - Aug 2024 | Remote",
+        details: "Designed and launched automated workflows, integrated cloud business systems, optimized pipelines..."
+      },
+      {
+        role: "Sales Operations Analyst / Salesforce Administrator - Couchbase",
+        date: "May 2020 - Nov 2022 | Hybrid",
+        details: "Supported global Sales, Finance, Revenue, and Legal teams by resolving complex Salesforce CRM requests..."
+      },
+      {
+        role: "Junior Salesforce Administrator - Couchbase",
+        date: "Jul 2019 - May 2020 | On-site",
+        details: "Resolved data integrity issues and configured core Salesforce features..."
+      }
+    ]
+  };
+
+  function addMessage(text, sender) {
+    const msg = document.createElement('div');
+    msg.classList.add('chatbot-message', sender);
+    msg.textContent = text;
+    messagesContainer.appendChild(msg);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function getResponse(input) {
+    const lower = input.toLowerCase();
+    if (lower.includes("name")) return profileData.name;
+    if (lower.includes("email") || lower.includes("contact")) return profileData.email;
+    if (lower.includes("phone") || lower.includes("call")) return profileData.phone;
+    if (lower.includes("linkedin")) return profileData.linkedin;
+    if (lower.includes("location") || lower.includes("where")) return profileData.location;
+    if (lower.includes("skills")) return profileData.skills.join(", ");
+    if (lower.includes("experience") || lower.includes("work") || lower.includes("job")) {
+      return profileData.experiences.map(e => `${e.role} (${e.date})`).join("\n");
+    }
+    if (lower.includes("about") || lower.includes("bio")) return profileData.about;
+    return "Sorry, I can only answer questions about my profile, skills, experiences, and contact info.";
+  }
+
+  inputField.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && inputField.value.trim() !== "") {
+      const userText = inputField.value.trim();
+      addMessage(userText, 'user');
+      const botReply = getResponse(userText);
+      addMessage(botReply, 'bot');
+      inputField.value = '';
+    }
+  });
+</script>
+
 </body>
 </html>
