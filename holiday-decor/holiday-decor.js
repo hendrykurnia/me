@@ -129,3 +129,49 @@ if (holidayDecor[month]) {
         setInterval(() => createDecorItem(items.src, 'rain'), 1200);
     }
 }
+
+const panelEl = document.querySelector('.holiday-panel');
+const aboutSection = document.querySelector('.about');
+const experienceSection = document.querySelectorAll('.experience-item');
+const skillsSection = document.querySelector('.skills');
+
+function checkPanelOverlap() {
+    if (!panelEl) return;
+
+    const panelRect = panelEl.getBoundingClientRect();
+
+    // Helper to check if two rects overlap
+    function isOverlapping(rect1, rect2) {
+        return !(
+            rect1.bottom < rect2.top ||
+            rect1.top > rect2.bottom ||
+            rect1.right < rect2.left ||
+            rect1.left > rect2.right
+        );
+    }
+
+    let hide = false;
+
+    if (aboutSection && isOverlapping(panelRect, aboutSection.getBoundingClientRect())) hide = true;
+    if (skillsSection && isOverlapping(panelRect, skillsSection.getBoundingClientRect())) hide = true;
+    if (experienceSection) {
+        experienceSection.forEach(item => {
+            if (isOverlapping(panelRect, item.getBoundingClientRect())) hide = true;
+        });
+    }
+
+    if (hide) {
+        panelEl.style.opacity = '0';
+        panelEl.style.pointerEvents = 'none';
+    } else {
+        panelEl.style.opacity = '1';
+        panelEl.style.pointerEvents = 'auto';
+    }
+}
+
+// Run on scroll and resize
+window.addEventListener('scroll', checkPanelOverlap);
+window.addEventListener('resize', checkPanelOverlap);
+
+// Initial check
+checkPanelOverlap();

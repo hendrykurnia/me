@@ -6,6 +6,7 @@
     left: 25px;
     z-index: 9999;
     width: 232px; /* increased from 160px */
+    transition: width 0.3s ease;
 }
 
 .holiday-panel img {
