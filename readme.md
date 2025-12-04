@@ -1,24 +1,106 @@
-# Hendry - Professional Profile
+# Hendry – Professional Profile
 
-This is a professional profile webpage for **Hendry Kurnia**. The page showcases Hendry's experience, skills, and contact information in a clean, modern design.
-
-## Description
-
-The webpage includes:
-
-- **Header**: Displays name, specialization, and contact info (email, phone, LinkedIn, location).  
-- **About Me**: A section describing professional background and expertise in systems integration, automation, and business systems engineering.  
-- **Experience**: Collapsible sections for each role, detailing job responsibilities and achievements.  
-- **Skills**: A visual list of technical and professional skills.  
-- **Interactive Chatbot**: A chat widget where visitors can ask questions about Hendry's profile, experience, skills, or contact information.  
-
-## Functionality
-
-- **Responsive Design**: Works well on desktop and mobile devices.  
-- **Collapsible Experience Items**: Click on a job title to expand or collapse details.  
-- **Hover Effects**: Interactive skill badges and experience cards.  
-- **Chatbot**: Real-time responses to questions about the profile, using predefined data.  
+A modern, responsive professional profile webpage for **Hendry Kurnia**, showcasing experience, skills, background, and contact information. The page includes an integrated chatbot that answers questions about Hendry’s profile in real time.
 
 ---
 
-This page can be opened in any modern browser by saving the HTML code as `index.html` and launching it.
+## 🚀 Overview
+
+This webpage serves as an online professional profile/resume.  
+It features a clean layout, animated UI elements, and an interactive chatbot widget to enhance user engagement.
+
+---
+
+## 📄 Features
+
+### 🔹 Header
+- Displays name, title, and areas of specialization  
+- Contact information:
+  - Email  
+  - Phone  
+  - LinkedIn  
+  - Location  
+
+### 🔹 About Me
+A summary of Hendry’s:
+- Background  
+- Systems integration expertise  
+- Experience in automation, data engineering, business systems, and cloud billing  
+
+### 🔹 Experience
+- Each job role is displayed as a **collapsible card**
+- Clicking a role expands detailed responsibilities and achievements
+- Covers positions such as:
+  - Integrations Engineer  
+  - Integration Systems Analyst  
+  - Salesforce Administrator  
+  - Sales Operations Analyst  
+
+### 🔹 Skills
+A responsive grid of colorful skill badges including:
+- Systems Integration  
+- Workato  
+- SnapLogic  
+- Salesforce  
+- Data Engineering  
+- Cloud Billing  
+- Databricks  
+- SOX Compliance  
+
+### 🔹 Interactive Chatbot
+A floating chatbot widget that:
+- Answers questions about Hendry’s:
+  - Experience  
+  - Skills  
+  - Contact info  
+  - Background  
+- Uses predefined dataset from the page  
+- Supports multi-line responses  
+- Expands/collapses when clicked  
+
+---
+
+## 🧩 Functionality
+
+### ✔ Responsive Design
+Works seamlessly on desktop, tablet, and mobile devices.
+
+### ✔ Collapsible Experience Items
+Clicking a job header shows or hides details.
+
+### ✔ Hover Effects
+- Experience items lift on hover  
+- Skill badges animate slightly  
+
+### ✔ Chatbot
+- Real-time Q&A  
+- Displays chat history  
+- Auto-scrolls to latest message  
+- Supports HTML line breaks for cleaner output  
+
+---
+
+## 📦 How to Use
+
+1. Download or copy the project HTML file.
+2. Save it as **`index.html`**.
+3. Open it in any modern web browser (Chrome, Edge, Firefox, Safari).
+4. No additional setup or dependencies required.
+
+---
+
+## 📝 Technologies Used
+- **HTML5**
+- **CSS3**
+- **JavaScript**
+- **Google Fonts (Inter)**
+
+---
+
+## 📬 Contact
+To connect with Hendry:
+
+- **Email:** hendry.itbizpro@gmail.com  
+- **Phone:** (669) 238-9972  
+- **LinkedIn:** [linkedin.com/in/hendrykurnia](https://linkedin.com/in/hendrykurnia)  
+- **Location:** Patterson, California, United States
