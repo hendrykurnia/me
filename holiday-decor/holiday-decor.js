@@ -25,7 +25,7 @@ const holidayDecor = {
     }
 };
 
-const month = 10//new Date().getMonth();
+const month = new Date().getMonth();
 
 if (holidayDecor[month]) {
     const { panel, items } = holidayDecor[month];
