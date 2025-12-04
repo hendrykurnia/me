@@ -69,10 +69,10 @@ section h2 {
 .experience-item {
     background: linear-gradient(135deg, #ffffff, #e2e8f0);
     border-left: 5px solid var(--color2);
-    padding: 1rem;
+    padding: 1rem 1.2rem;
     margin-bottom: 1.2rem;
     border-radius: 10px;
-    transition: 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .experience-item:hover {
@@ -84,6 +84,17 @@ section h2 {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+}
+
+.experience-header h3 { 
+    margin: 0; 
+    font-size: 1.15rem; 
+    font-weight: 600; 
+} 
+
+.experience-header span { 
+    font-size: 0.9rem; 
+    color: var(--text-light); 
 }
 
 .experience-details {
