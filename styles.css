@@ -1,0 +1,118 @@
+:root {
+    --color1: #6a11cb;
+     --color2: #2575fc;
+    --color3: #ff6a00;
+    --color4: #ff0066;
+    --bg-light: #f0f4f8;
+    --text-dark: #1f2937;
+    --text-light: #4b5563;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+header {
+    background: linear-gradient(135deg, var(--color1), var(--color2));
+    color: #fff;
+    text-align: center;
+    padding: 2.5rem 1rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header p {
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.contact-info {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.contact-info a, .contact-info span {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+main {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+section h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    background: linear-gradient(90deg, var(--color3), var(--color4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.experience-item {
+    background: linear-gradient(135deg, #ffffff, #e2e8f0);
+    border-left: 5px solid var(--color2);
+    padding: 1rem;
+    margin-bottom: 1.2rem;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.experience-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.experience-details {
+    display: none;
+    margin-top: 0.5rem;
+    line-height: 1.5;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.skill {
+    padding: 0.35rem 0.9rem;
+    border-radius: 25px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--color3), var(--color4));
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.skill:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    header h1 { font-size: 2rem; }
+    section h2 { font-size: 1.5rem; }
+}

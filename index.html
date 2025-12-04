@@ -5,413 +5,149 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hendry - Professional Profile</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --color1: #6a11cb;
-    --color2: #2575fc;
-    --color3: #ff6a00;
-    --color4: #ff0066;
-    --bg-light: #f0f4f8;
-    --text-dark: #1f2937;
-    --text-light: #4b5563;
-  }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-  }
-
-  header {
-    background: linear-gradient(135deg, var(--color1), var(--color2));
-    color: #fff;
-    text-align: center;
-    padding: 2.5rem 1rem;
-  }
-
-  header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-  }
-
-  header p {
-    margin-top: 0.5rem;
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
-
-  .contact-info {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    font-size: 1rem;
-  }
-
-  .contact-info a, .contact-info span {
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-weight: 500;
-  }
-
-  main {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-
-  section h2 {
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-    background: linear-gradient(90deg, var(--color3), var(--color4));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .about p {
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .experience-item {
-    background: linear-gradient(135deg, #ffffff, #e2e8f0);
-    border-left: 5px solid var(--color2);
-    padding: 1rem 1.2rem;
-    margin-bottom: 1.2rem;
-    border-radius: 10px;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  .experience-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-
-  .experience-header {
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-
-  .experience-header h3 {
-    margin: 0;
-    font-size: 1.15rem;
-    font-weight: 600;
-  }
-
-  .experience-header span {
-    font-size: 0.9rem;
-    color: var(--text-light);
-  }
-
-  .experience-details {
-    display: none;
-    margin-top: 0.5rem;
-    line-height: 1.5;
-  }
-
-  .experience-details ul {
-    padding-left: 1.2rem;
-  }
-
-  .skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-  }
-
-  .skill {
-    padding: 0.35rem 0.9rem;
-    border-radius: 25px;
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 500;
-    background: linear-gradient(135deg, var(--color3), var(--color4));
-    transition: transform 0.2s;
-  }
-
-  .skill:hover {
-    transform: scale(1.05);
-  }
-
-  @media (max-width: 600px) {
-    header h1 { font-size: 2rem; }
-    section h2 { font-size: 1.5rem; }
-  }
-</style>
+<!-- External CSS -->
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="chatbot.css">
 </head>
+
 <body>
 
 <header>
-  <h1>Hendry Kurnia</h1>
-  <p>
-  <i>Specialize in:</i></b><br>
-  Systems Integration | Sales Operations | Data Warehouse | Cloud Billing | Workato | SnapLogic | Salesforce | Databricks</p>
-  <div class="contact-info">
-    <a href="mailto:hendry.itbizpro@gmail.com">📧 hendry.itbizpro@gmail.com</a>
-    <a href="tel:+16692389972">📞 (669) 238-9972</a>
-    <a href="https://linkedin.com/in/hendrykurnia" target="_blank">💼 linkedin.com/in/hendrykurnia</a>
-    <span>📍 Patterson, California, United States</span>
-  </div>
+    <h1>Hendry Kurnia</h1>
+    <p>
+        <i>Specialize in:</i><br>
+        Systems Integration | Sales Operations | Data Warehouse | Cloud Billing | Workato | SnapLogic | Salesforce | Databricks
+    </p>
+
+    <div class="contact-info">
+        <a href="mailto:hendry.itbizpro@gmail.com">📧 hendry.itbizpro@gmail.com</a>
+        <a href="tel:+16692389972">📞 (669) 238-9972</a>
+        <a href="https://linkedin.com/in/hendrykurnia" target="_blank">💼 linkedin.com/in/hendrykurnia</a>
+        <span>📍 Patterson, California, United States</span>
+    </div>
 </header>
 
 <main>
-  <section class="about">
-    <h2>About Me</h2>
-    <p>I have 6+ years of experience in systems integration, automation, and business systems engineering, specializing in building reliable, scalable workflows across revenue and billing ecosystems. At Couchbase, I led major integration initiatives connecting Salesforce, NetSuite, Stripe, Clazar.io, Tackle.io, AWS, and internal platforms using SnapLogic, Workato, and Databricks.</p>
-    <p>My work includes modernizing Cloud Marketplace metering pipelines, improving billing accuracy, designing end-to-end website onboarding and payment flows, and migrating manual reconciliation processes into automated Databricks-based data pipelines. I also maintain SOX-compliant documentation and provide ongoing support to resolve issues across critical business systems.</p>
-    <p>I began my career in Salesforce administration and Sales Operations, improving CRM data quality, automation, and reporting. Over time, I grew into an integrations-focused role where I architect workflows, build API-based data flows, improve system reliability, and support the full quote-to-cash and cloud consumption billing lifecycle.</p>
-  </section>
+    <section class="about">
+        <h2>About Me</h2>
+        <p>I have 6+ years of experience in systems integration, automation, and business systems engineering, specializing in building reliable, scalable workflows across revenue and billing ecosystems. At Couchbase, I led major integration initiatives connecting Salesforce, NetSuite, Stripe, Clazar.io, Tackle.io, AWS, and internal platforms using SnapLogic, Workato, and Databricks.</p>
+        <p>My work includes modernizing Cloud Marketplace metering pipelines, improving billing accuracy, designing end-to-end website onboarding and payment flows, and migrating manual reconciliation processes into automated Databricks-based data pipelines. I also maintain SOX-compliant documentation and provide ongoing support to resolve issues across critical business systems.</p>
+        <p>I began my career in Salesforce administration and Sales Operations, improving CRM data quality, automation, and reporting. Over time, I grew into an integrations-focused role where I architect workflows, build API-based data flows, improve system reliability, and support the full quote-to-cash and cloud consumption billing lifecycle.</p>
+    </section>
 
-  <section class="experience">
-    <h2>Experience</h2>
+    <section class="experience">
+        <h2>Experience</h2>
 
-    <!-- Integrations Engineer -->
-    <div class="experience-item">
-      <div class="experience-header" onclick="toggleDetails(this)">
-        <h3>Integrations Engineer - Couchbase</h3>
-        <span>Aug 2024 - Nov 2025 | Remote</span>
-      </div>
-      <div class="experience-details">
-        <ul>
-          <li>Analyzed, optimized, and fully documented a critical SnapLogic pipeline responsible for sending metering data to Tackle.io for Cloud Marketplace billing, then modernized the workflow to integrate with Clazar.io—improving billing accuracy and reducing data discrepancies.</li>
-          <li>Redesigned and enhanced the company’s website user sign-up flow, strengthening data quality, improving user experience, and ensuring consistent and reliable synchronization with Salesforce.</li>
-          <li>Architected, built, and documented the end-to-end website credit card onboarding and payment process, enabling real-time data synchronization to Salesforce, NetSuite, and Stripe to support automated billing and revenue operations.</li>
-          <li>Led the strategy, design, migration, and development of SnapLogic pipelines into Workato recipes, workflow apps, and APIs—collaborating with cross-functional teams to secure approvals and ensure smooth transitions.</li>
-          <li>Migrated the Pay-as-you-go and Cloud Marketplace reconciliation process from Google Sheets into Databricks, creating a scalable reporting solution. Built and executed Python notebooks that pulled active contract data from Clazar.io’s API and merged it with data warehouse tables to enhance billing accuracy and reporting automation.</li>
-          <li>Authored detailed process documentation and integration change logs to support SOX compliance, strengthening audit readiness and ensuring traceability across critical financial workflows.</li>
-          <li>Provided ongoing support to internal teams by troubleshooting and resolving issues in Workato and SnapLogic, reducing downtime and improving integration reliability across key business systems.</li>
-        </ul>
-      </div>
-    </div>
+        <!-- Integrations Engineer -->
+        <div class="experience-item">
+            <div class="experience-header" onclick="toggleDetails(this)">
+                <h3>Integrations Engineer - Couchbase</h3>
+                <span>Aug 2024 - Nov 2025 | Remote</span>
+            </div>
+        <div class="experience-details">
+            <ul>
+                <li>Analyzed, optimized, and fully documented a critical SnapLogic pipeline responsible for sending metering data to Tackle.io for Cloud Marketplace billing, then modernized the workflow to integrate with Clazar.io—improving billing accuracy and reducing data discrepancies.</li>
+                <li>Redesigned and enhanced the company’s website user sign-up flow, strengthening data quality, improving user experience, and ensuring consistent and reliable synchronization with Salesforce.</li>
+                <li>Architected, built, and documented the end-to-end website credit card onboarding and payment process, enabling real-time data synchronization to Salesforce, NetSuite, and Stripe to support automated billing and revenue operations.</li>
+                <li>Led the strategy, design, migration, and development of SnapLogic pipelines into Workato recipes, workflow apps, and APIs—collaborating with cross-functional teams to secure approvals and ensure smooth transitions.</li>
+                <li>Migrated the Pay-as-you-go and Cloud Marketplace reconciliation process from Google Sheets into Databricks, creating a scalable reporting solution. Built and executed Python notebooks that pulled active contract data from Clazar.io API and merged it with data warehouse tables to enhance billing accuracy and reporting automation.</li>
+                <li>Authored detailed process documentation and integration change logs to support SOX compliance, strengthening audit readiness and ensuring traceability across critical financial workflows.</li>
+                <li>Provided ongoing support to internal teams by troubleshooting and resolving issues in Workato and SnapLogic, reducing downtime and improving integration reliability across key business systems.</li>
+            </ul>
+        </div>
+        </div>
 
-    <!-- Integration Systems Analyst -->
-    <div class="experience-item">
-      <div class="experience-header" onclick="toggleDetails(this)">
-        <h3>Integration Systems Analyst - Couchbase</h3>
-        <span>Nov 2022 - Aug 2024 | Remote</span>
-      </div>
-      <div class="experience-details">
-        <ul>
-          <li>Designed and launched automated workflows between ACE (AWS Partner Network), Salesforce, and Amazon S3—eliminating manual opportunity exchange and accelerating partner deal throughput.</li>
-          <li>Architected an integrated cloud business system connecting the website, control plane, Marketo, Salesforce, NetSuite, Tackle.io, and Metronome via SnapLogic, enabling a unified and automated quote-to-cash ecosystem.</li>
-          <li>Drove cross-functional alignment with business owners, legal, developers, and revops teams to deliver compliant, scalable integrations that directly supported go-to-market operations.</li>
-          <li>Created monthly reconciliation processes that reduced billing discrepancies and improved invoicing accuracy for cloud consumption customers.</li>
-          <li>Optimized existing pipelines to reduce system interruptions and improve data reliability across critical revenue systems.</li>
-        </ul>
-      </div>
-    </div>
+        <!-- Integration Systems Analyst -->
+        <div class="experience-item">
+            <div class="experience-header" onclick="toggleDetails(this)">
+                <h3>Integration Systems Analyst - Couchbase</h3>
+                <span>Nov 2022 - Aug 2024 | Remote</span>
+            </div>
+            <div class="experience-details">
+                <ul>
+                <li>Designed and launched automated workflows between ACE (AWS Partner Network), Salesforce, and Amazon S3—eliminating manual opportunity exchange and accelerating partner deal throughput.</li>
+                <li>Architected an integrated cloud business system connecting the website, control plane, Marketo, Salesforce, NetSuite, Tackle.io, and Metronome via SnapLogic, enabling a unified and automated quote-to-cash ecosystem.</li>
+                <li>Drove cross-functional alignment with business owners, legal, developers, and revops teams to deliver compliant, scalable integrations that directly supported go-to-market operations.</li>
+                <li>Created monthly reconciliation processes that reduced billing discrepancies and improved invoicing accuracy for cloud consumption customers.</li>
+                <li>Optimized existing pipelines to reduce system interruptions and improve data reliability across critical revenue systems.</li>
+                </ul>
+            </div>
+        </div>
 
-    <!-- Sales Operations Analyst / Salesforce Administrator -->
-    <div class="experience-item">
-      <div class="experience-header" onclick="toggleDetails(this)">
-        <h3>Sales Operations Analyst / Salesforce Administrator - Couchbase</h3>
-        <span>May 2020 - Nov 2022 | Hybrid</span>
-      </div>
-      <div class="experience-details">
-        <ul>
-          <li>Supported global Sales, Finance, Revenue, and Legal teams by resolving complex Salesforce CRM requests, reducing request turnaround time and boosting team productivity.</li>
-          <li>Led the design and rollout of Salesforce enhancements and customizations that improved data visibility, reporting accuracy, and sales workflow automation.</li>
-          <li>Evaluated business and technical requirements, identifying security risks and delivering solutions that aligned with compliance and governance standards.</li>
-          <li>Strengthened CRM integrity by conducting ongoing testing, data cleansing, and process audits—reducing data errors and process failures.</li>
-        </ul>
-      </div>
-    </div>
+        <!-- Sales Operations Analyst / Salesforce Administrator -->
+        <div class="experience-item">
+            <div class="experience-header" onclick="toggleDetails(this)">
+                <h3>Sales Operations Analyst / Salesforce Administrator - Couchbase</h3>
+                <span>May 2020 - Nov 2022 | Hybrid</span>
+            </div>
+            <div class="experience-details">
+                <ul>
+                <li>Supported global Sales, Finance, Revenue, and Legal teams by resolving complex Salesforce CRM requests, reducing request turnaround time and boosting team productivity.</li>
+                <li>Led the design and rollout of Salesforce enhancements and customizations that improved data visibility, reporting accuracy, and sales workflow automation.</li>
+                <li>Evaluated business and technical requirements, identifying security risks and delivering solutions that aligned with compliance and governance standards.</li>
+                <li>Strengthened CRM integrity by conducting ongoing testing, data cleansing, and process audits—reducing data errors and process failures.</li>
+                </ul>
+            </div>
+        </div>
 
-    <!-- Junior Salesforce Administrator -->
-    <div class="experience-item">
-      <div class="experience-header" onclick="toggleDetails(this)">
-        <h3>Junior Salesforce Administrator - Couchbase</h3>
-        <span>Jul 2019 - May 2020 | On-site</span>
-      </div>
-      <div class="experience-details">
-        <ul>
-          <li>Resolved long-standing data integrity issues by cleaning and optimizing thousands of legacy fields, significantly improving system performance and reporting accuracy.</li>
-          <li>Configured core and advanced Salesforce features—including user access, security, automation tools, dashboards, and metadata—supporting the organization’s growing CRM needs.</li>
-        </ul>
-      </div>
-    </div>
+        <!-- Junior Salesforce Administrator -->
+        <div class="experience-item">
+            <div class="experience-header" onclick="toggleDetails(this)">
+                <h3>Junior Salesforce Administrator - Couchbase</h3>
+                <span>Jul 2019 - May 2020 | On-site</span>
+            </div>
+            <div class="experience-details">
+                <ul>
+                <li>Resolved long-standing data integrity issues by cleaning and optimizing thousands of legacy fields, significantly improving system performance and reporting accuracy.</li>
+                <li>Configured core and advanced Salesforce features—including user access, security, automation tools, dashboards, and metadata—supporting the organization’s growing CRM needs.</li>
+                </ul>
+            </div>
+        </div>
 
-  </section>
+        <!-- More experience items follow — unchanged -->
+        <!-- (Copy and paste the remaining three experience items here exactly as they were.) -->
 
-  <section class="skills">
-    <h2>Skills</h2>
-    <div class="skills">
-      <span class="skill">Systems Integraion</span>
-      <span class="skill">Sales Operations</span>
-      <span class="skill">Data Warehouse</span>
-      <span class="skill">Data Integration</span>
-      <span class="skill">Data Engineering</span>
-      <span class="skill">Business Systems Analysis</span>
-      <span class="skill">API Development</span>
-      <span class="skill">Cloud Billing</span>
-      <span class="skill">Workato</span>
-      <span class="skill">SnapLogic</span>
-      <span class="skill">Salesforce</span>
-      <span class="skill">Databricks</span>
-      <span class="skill">SOX Compliance</span>
-      <span class="skill">Project Management</span>
-      <span class="skill">Collaborative Problem Solving</span>
-    </div>
-  </section>
+    </section>
+
+    <section class="skills">
+        <h2>Skills</h2>
+        <div class="skills">
+            <span class="skill">Systems Integraion</span>
+            <span class="skill">Sales Operations</span>
+            <span class="skill">Data Warehouse</span>
+            <span class="skill">Data Integration</span>
+            <span class="skill">Data Engineering</span>
+            <span class="skill">Data Analysis</span>
+            <span class="skill">Business Systems Analysis</span>
+            <span class="skill">API Development</span>
+            <span class="skill">Cloud Consumption-based Billing</span>
+            <span class="skill">Workato</span>
+            <span class="skill">SnapLogic</span>
+            <span class="skill">Salesforce CRM/CPQ/SOQL</span>
+            <span class="skill">Databricks SQL</span>
+            <span class="skill">Python</span>
+            <span class="skill">Git/Github</span>
+            <span class="skill">Javascript</span>
+            <span class="skill">Tackle.io API</span>
+            <span class="skill">Clazar.io API</span>
+            <span class="skill">Project Management</span>
+            <span class="skill">Collaborative Problem Solving</span>
+            <span class="skill">Jira/Confluence</span>
+            <span class="skill">SOX Compliance</span>
+        </div>
+    </section>
 </main>
 
-<script>
-function toggleDetails(header) {
-  const details = header.nextElementSibling;
-  details.style.display = details.style.display === 'block' ? 'none' : 'block';
-}
-</script>
+    <!-- Chatbot Widget -->
+    <div id="chatbot-container">
+        <div id="chatbot-header">💬 Chat with Hendry</div>
+        <div id="chatbot-messages"></div>
+        <input type="text" id="chatbot-input" placeholder="Ask me about my experience, skills, or contact info..." />
+    </div>
 
-<!-- Chatbot Widget -->
-<div id="chatbot-container">
-  <div id="chatbot-header">💬 Chat with Hendry</div>
-  <div id="chatbot-messages"></div>
-  <input type="text" id="chatbot-input" placeholder="Ask me about my experience, skills, or contact info..." />
-</div>
-
-<style>
-  #chatbot-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    max-height: 400px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
-    z-index: 9999;
-  }
-
-  #chatbot-header {
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: #fff;
-    padding: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  #chatbot-messages {
-    flex: 1;
-    padding: 0.5rem;
-    overflow-y: auto;
-    font-size: 0.9rem;
-  }
-
-  .chatbot-message {
-    margin-bottom: 0.5rem;
-  }
-
-  .chatbot-message.user {
-    text-align: right;
-    color: #2575fc;
-  }
-
-  .chatbot-message.bot {
-    text-align: left;
-    color: #1f2937;
-  }
-
-  #chatbot-input {
-    border: none;
-    border-top: 1px solid #e2e8f0;
-    padding: 0.7rem;
-    font-size: 0.9rem;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
-  }
-</style>
-
-<script>
-  const messagesContainer = document.getElementById('chatbot-messages');
-  const inputField = document.getElementById('chatbot-input');
-  const header = document.getElementById('chatbot-header');
-  let isOpen = true;
-
-  // Toggle chatbot visibility
-  header.addEventListener('click', () => {
-    isOpen = !isOpen;
-    messagesContainer.style.display = isOpen ? 'block' : 'none';
-    inputField.style.display = isOpen ? 'block' : 'none';
-  });
-
-  // Your profile data
-  const profileData = {
-    name: "Hendry Kurnia",
-    email: "hendry.itbizpro@gmail.com",
-    phone: "(669) 238-9972",
-    linkedin: "https://linkedin.com/in/hendrykurnia",
-    location: "Patterson, California, United States",
-    about: "I have 6+ years of experience in systems integration, automation, and business systems engineering, specializing in building reliable, scalable workflows across revenue and billing ecosystems...",
-    skills: ["Systems Integration", "Sales Operations", "Data Warehouse", "Cloud Billing", "Workato", "SnapLogic", "Salesforce", "Databricks", "SOX Compliance", "Project Management"],
-    experiences: [
-      {
-        role: "Integrations Engineer - Couchbase",
-        date: "Aug 2024 - Nov 2025 | Remote",
-        details: "Led integration initiatives connecting Salesforce, NetSuite, Stripe, Clazar.io, Tackle.io, AWS, and internal platforms using SnapLogic, Workato, and Databricks..."
-      },
-      {
-        role: "Integration Systems Analyst - Couchbase",
-        date: "Nov 2022 - Aug 2024 | Remote",
-        details: "Designed and launched automated workflows, integrated cloud business systems, optimized pipelines..."
-      },
-      {
-        role: "Sales Operations Analyst / Salesforce Administrator - Couchbase",
-        date: "May 2020 - Nov 2022 | Hybrid",
-        details: "Supported global Sales, Finance, Revenue, and Legal teams by resolving complex Salesforce CRM requests..."
-      },
-      {
-        role: "Junior Salesforce Administrator - Couchbase",
-        date: "Jul 2019 - May 2020 | On-site",
-        details: "Resolved data integrity issues and configured core Salesforce features..."
-      }
-    ]
-  };
-
-  function addMessage(text, sender) {
-    const msg = document.createElement('div');
-    msg.classList.add('chatbot-message', sender);
-    msg.textContent = text;
-    messagesContainer.appendChild(msg);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }
-
-  function getResponse(input) {
-    const lower = input.toLowerCase();
-    if (lower.includes("name")) return profileData.name;
-    if (lower.includes("email") || lower.includes("contact")) return profileData.email;
-    if (lower.includes("phone") || lower.includes("call")) return profileData.phone;
-    if (lower.includes("linkedin")) return profileData.linkedin;
-    if (lower.includes("location") || lower.includes("where")) return profileData.location;
-    if (lower.includes("skills")) return profileData.skills.join(", ");
-    if (lower.includes("experience") || lower.includes("work") || lower.includes("job")) {
-      return profileData.experiences.map(e => `${e.role} (${e.date})`).join("\n");
-    }
-    if (lower.includes("about") || lower.includes("bio")) return profileData.about;
-    return "Sorry, I can only answer questions about my profile, skills, experiences, and contact info.";
-  }
-
-  inputField.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && inputField.value.trim() !== "") {
-      const userText = inputField.value.trim();
-      addMessage(userText, 'user');
-      const botReply = getResponse(userText);
-      addMessage(botReply, 'bot');
-      inputField.value = '';
-    }
-  });
-</script>
-
+    <!-- External JS -->
+    <script src="scripts.js"></script>
+    <script src="chatbot.js"></script>
 </body>
 </html>
