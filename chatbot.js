@@ -49,8 +49,9 @@ function getResponse(input) {
 
     // Loop through CSV keywords
     for (let entry of knowledgeBase) {
-        if (lower.includes(entry.keyword)) {
-            return entry.answer; // Only first match returned
+        const words = lower.split(/\W+/);  
+        if (words.includes(entry.keyword)) {
+            return entry.answer;
         }
     }
 
