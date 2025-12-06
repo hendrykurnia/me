@@ -47,10 +47,9 @@ function addMessage(text, sender) {
 function getResponse(input) {
     const lower = input.toLowerCase();
 
-    // Loop through CSV keywords
     for (let entry of knowledgeBase) {
-        const words = lower.split(/\W+/);  
-        if (words.includes(entry.keyword)) {
+        const regex = new RegExp(`\\b${entry.keyword.toLowerCase()}\\b`);
+        if (regex.test(lower)) {
             return entry.answer;
         }
     }
