@@ -25,9 +25,10 @@
 
 /* Rain from top */
 @keyframes rain {
-    0%   { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+    0%   { transform: translateY(-100px) rotate(-30deg); opacity: 0; }
     10%  { opacity: var(--item-opacity); }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: var(--item-opacity); }
+    50%  { transform: translateY(50vh) rotate(30deg); } /* mid-fall tilt */
+    100% { transform: translateY(110vh) rotate(-30deg); opacity: var(--item-opacity); }
 }
 
 /* Natural firework-style upward launch */

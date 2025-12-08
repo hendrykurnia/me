@@ -9,23 +9,59 @@ let isPopIntervalRunning = false;
 const holidayDecor = {
     0: {
         panel: 'holiday-decor/decorations/new-year.png',
-        items: { src: 'holiday-decor/decorations/firework.png', type: 'pop', count: 10 }
+        items: { 
+            src: [
+                'holiday-decor/decorations/firework1.png',
+                'holiday-decor/decorations/firework2.png',
+            ], 
+            type: 'pop', 
+            count: 10 
+        }
     },
     6: {
         panel: 'holiday-decor/decorations/july-4th.png',
-        items: { src: 'holiday-decor/decorations/confetti.png', type: 'pop', count: 12 }
+        items: { 
+            src: [
+                'holiday-decor/decorations/confetti1.png'
+            ], 
+            type: 'pop', 
+            count: 12 
+        }
     },
     9: {
         panel: 'holiday-decor/decorations/halloween.png',
-        items: { src: 'holiday-decor/decorations/pumpkin.png', type: 'rain', count: 20 }
+        items: { 
+            src: [
+                'holiday-decor/decorations/pumpkin.png',
+                'holiday-decor/decorations/spider.png',
+                'holiday-decor/decorations/bat.png'
+            ], 
+            type: 'rain', 
+            count: 20 
+        }
     },
     10: {
         panel: 'holiday-decor/decorations/thanksgiving.png',
-        items: { src: 'holiday-decor/decorations/maple-leaf.png', type: 'rain', count: 20 }
+        items: { 
+            src: [
+                'holiday-decor/decorations/maple-leaf1.png',
+                'holiday-decor/decorations/maple-leaf2.png'
+            ], 
+            type: 'rain', 
+            count: 20 
+        }
     },
     11: {
         panel: 'holiday-decor/decorations/christmas.png',
-        items: { src: 'holiday-decor/decorations/snowflake.png', type: 'rain', count: 25 }
+        items: { 
+            src: [
+                'holiday-decor/decorations/snowflake1.png',
+                'holiday-decor/decorations/snowflake2.png',
+                'holiday-decor/decorations/candy.png'
+            ], 
+            type: 'rain', 
+            count: 25 
+        }
     }
 };
 
@@ -70,11 +106,18 @@ function createExplosion(x, height, items) {
 
 function createDecorItem(src, type, items) {
     const el = document.createElement('img');
-    el.src = src;
+
+    // --- NEW: if src is an array, pick one at random ---
+    const finalSrc = Array.isArray(src)
+        ? src[Math.floor(Math.random() * src.length)]
+        : src;
+
+    el.src = finalSrc;
     el.className = 'holiday-decor-item';
 
-    // random size (20–60px)
-    const size = 60 + Math.random() * 100;
+    // random size (60–160px)
+    const size = 40 + Math.random() * 80;
+    
     el.style.width = `${size}px`;
     el.style.setProperty('--item-opacity', (0.35 + Math.random() * 0.65).toString());
 
@@ -84,8 +127,8 @@ function createDecorItem(src, type, items) {
     if (type === 'rain') {
         el.style.top = '-80px';
         el.style.animation = `rain ${5 + Math.random() * 5}s linear forwards`;
-    } else if (type === 'pop') {
-        // DO NOT create if we're at max fireworks
+    } 
+    else if (type === 'pop') {
         if (activeFireworks >= MAX_FIREWORKS) return;
         activeFireworks++;
 
@@ -95,7 +138,6 @@ function createDecorItem(src, type, items) {
 
         const height = Math.floor(250 + Math.random() * 250);
         el.style.setProperty('--launch-height', `-${height}px`);
-
         el.style.setProperty('--rot-start', `${Math.random() * 40 - 20}deg`);
         el.style.setProperty('--rot-mid', `${Math.random() * 40 - 20}deg`);
         el.style.setProperty('--rot-end', `${Math.random() * 40 - 20}deg`);
@@ -106,16 +148,15 @@ function createDecorItem(src, type, items) {
 
         el.addEventListener('animationend', () => {
             el.remove();
-            activeFireworks--;   // IMPORTANT
+            activeFireworks--;
         });
 
-        // Pass the full 'items' object to explosion so it can set the interval
-        setTimeout(() => createExplosion(x, height, items), 1300); 
+        // Pass full item object for explode logic
+        setTimeout(() => createExplosion(x, height, items), 1300);
     }
 
     document.body.appendChild(el);
 
-    // remove after animation (only needed for rain items, pop items have their own listener)
     if (type === 'rain') {
         el.addEventListener('animationend', () => el.remove());
     }
@@ -139,7 +180,7 @@ function startHolidayDecorations(items) {
 // -------------------------------------------------------------------
 // --- Main Execution Logic (Remains the same) ---
 
-const month = new Date().getMonth();
+const month = 11;//new Date().getMonth();
 
 if (holidayDecor[month]) {
     const { panel, items } = holidayDecor[month];
