@@ -26,23 +26,23 @@
 /* Rain from top */
 @keyframes rain {
     0%   { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-    10%  { opacity: 1; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 1; }
+    10%  { opacity: var(--item-opacity); }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: var(--item-opacity); }
 }
 
 /* Natural firework-style upward launch */
 @keyframes firework-launch {
     0% {
-        transform: translateY(50px) scale(0.3) rotate(var(--rot-start));
         opacity: 0;
+        transform: translateY(50px) scale(0.3) rotate(var(--rot-start));
     }
     20% {
-        opacity: 1;
+        opacity: var(--item-opacity);
         transform: translateY(0px) scale(1) rotate(var(--rot-mid));
     }
     80% {
+        opacity: var(--item-opacity);
         transform: translateY(var(--launch-height)) scale(1.05) rotate(var(--rot-end));
-        opacity: 1;
     }
     100% {
         opacity: 0;

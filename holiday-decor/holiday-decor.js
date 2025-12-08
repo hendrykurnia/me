@@ -1,7 +1,11 @@
-let activeFireworks = 0;
-const MAX_FIREWORKS = 10;  // safe performance limit
+// holiday-decor.js (Single file, no modules, no imports/exports)
 
-// Holiday decor mapping
+let activeFireworks = 0;
+const MAX_FIREWORKS = 10;
+// Global flag to prevent multiple 'pop' intervals from being set up
+let isPopIntervalRunning = false; 
+
+// Holiday decor mapping (Remains the same)
 const holidayDecor = {
     0: {
         panel: 'holiday-decor/decorations/new-year.png',
@@ -25,6 +29,116 @@ const holidayDecor = {
     }
 };
 
+// -------------------------------------------------------------------
+// --- Helper Functions (Now defined in the global scope) ---
+
+function createExplosion(x, height, items) {
+    const particleCount = 6 + Math.floor(Math.random() * 5);
+
+    for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement('div');
+        p.classList.add('firework-particle');
+        
+        // particle style
+        p.style.position = 'fixed';
+        p.style.left = `${x}px`;
+        p.style.bottom = `${height + 40}px`;
+        p.style.width = '6px';
+        p.style.height = '6px';
+        p.style.borderRadius = '50%';
+        p.style.background = `hsl(${Math.random() * 360}, 80%, 60%)`;
+        p.style.zIndex = 9998;
+
+        // random scatter direction
+        p.style.transform = `translate(${Math.random()*80 - 40}px, ${Math.random()*80 - 40}px)`;
+
+        // animation
+        p.style.animation = `firework-particle 0.7s ease-out forwards`;
+
+        document.body.appendChild(p);
+
+        // cleanup
+        p.addEventListener('animationend', () => p.remove());
+    }
+
+    // Initialize the recurring 'pop' interval ONLY IF it hasn't started yet
+    if (items.type === 'pop' && !isPopIntervalRunning) {
+        isPopIntervalRunning = true;
+        setInterval(() => createDecorItem(items.src, 'pop', items), 700);
+    }
+}
+
+function createDecorItem(src, type, items) {
+    const el = document.createElement('img');
+    el.src = src;
+    el.className = 'holiday-decor-item';
+
+    // random size (20–60px)
+    const size = 60 + Math.random() * 100;
+    el.style.width = `${size}px`;
+    el.style.setProperty('--item-opacity', (0.35 + Math.random() * 0.65).toString());
+
+    // random horizontal position
+    el.style.left = `${Math.random() * window.innerWidth}px`;
+
+    if (type === 'rain') {
+        el.style.top = '-80px';
+        el.style.animation = `rain ${5 + Math.random() * 5}s linear forwards`;
+    } else if (type === 'pop') {
+        // DO NOT create if we're at max fireworks
+        if (activeFireworks >= MAX_FIREWORKS) return;
+        activeFireworks++;
+
+        const x = Math.random() * window.innerWidth;
+        el.style.left = `${x}px`;
+        el.style.bottom = '-40px';
+
+        const height = Math.floor(250 + Math.random() * 250);
+        el.style.setProperty('--launch-height', `-${height}px`);
+
+        el.style.setProperty('--rot-start', `${Math.random() * 40 - 20}deg`);
+        el.style.setProperty('--rot-mid', `${Math.random() * 40 - 20}deg`);
+        el.style.setProperty('--rot-end', `${Math.random() * 40 - 20}deg`);
+
+        el.style.animation = `firework-launch ${1.5 + Math.random() * 0.7}s ease-out forwards`;
+
+        document.body.appendChild(el);
+
+        el.addEventListener('animationend', () => {
+            el.remove();
+            activeFireworks--;   // IMPORTANT
+        });
+
+        // Pass the full 'items' object to explosion so it can set the interval
+        setTimeout(() => createExplosion(x, height, items), 1300); 
+    }
+
+    document.body.appendChild(el);
+
+    // remove after animation (only needed for rain items, pop items have their own listener)
+    if (type === 'rain') {
+        el.addEventListener('animationend', () => el.remove());
+    }
+}
+
+// Function to start the decoration process
+function startHolidayDecorations(items) {
+    // Create initial items
+    for (let i = 0; i < items.count; i++) {
+        // Pass the full 'items' object to ensure the helpers have the context they need
+        setTimeout(() => createDecorItem(items.src, items.type, items), i * 400); 
+    }
+
+    // Ongoing rain
+    if (items.type === 'rain') {
+        setInterval(() => createDecorItem(items.src, 'rain'), 1200);
+    }
+    // 'pop' interval is handled inside createExplosion to ensure the first one fires correctly.
+}
+
+// -------------------------------------------------------------------
+// --- Main Execution Logic (Remains the same) ---
+
 const month = new Date().getMonth();
 
 if (holidayDecor[month]) {
@@ -36,100 +150,11 @@ if (holidayDecor[month]) {
     panelEl.innerHTML = `<img src="${panel}" alt="">`;
     document.body.appendChild(panelEl);
 
-    function createDecorItem(src, type) {
-        const el = document.createElement('img');
-        el.src = src;
-        el.className = 'holiday-decor-item';
-
-        // random size (20–60px)
-        const size = 60 + Math.random() * 100;
-        el.style.width = `${size}px`;
-
-        // random horizontal position
-        el.style.left = `${Math.random() * window.innerWidth}px`;
-
-        if (type === 'rain') {
-            el.style.top = '-80px';
-            el.style.animation = `rain ${5 + Math.random() * 5}s linear forwards`;
-        } else if (type === 'pop') {
-            // DO NOT create if we're at max fireworks
-            if (activeFireworks >= MAX_FIREWORKS) return;
-            activeFireworks++;
-
-            const x = Math.random() * window.innerWidth;
-            el.style.left = `${x}px`;
-            el.style.bottom = '-40px';
-
-            const height = Math.floor(250 + Math.random() * 250);
-            el.style.setProperty('--launch-height', `-${height}px`);
-
-            el.style.setProperty('--rot-start', `${Math.random() * 40 - 20}deg`);
-            el.style.setProperty('--rot-mid', `${Math.random() * 40 - 20}deg`);
-            el.style.setProperty('--rot-end', `${Math.random() * 40 - 20}deg`);
-
-            el.style.animation = `firework-launch ${1.5 + Math.random() * 0.7}s ease-out forwards`;
-
-            document.body.appendChild(el);
-
-            el.addEventListener('animationend', () => {
-                el.remove();
-                activeFireworks--;   // IMPORTANT
-            });
-
-            setTimeout(() => createExplosion(x, height), 1300);
-        }
-
-        document.body.appendChild(el);
-
-        // remove after animation
-        el.addEventListener('animationend', () => el.remove());
-    }
-
-    function createExplosion(x, height) {
-        const particleCount = 6 + Math.floor(Math.random() * 5);
-
-        for (let i = 0; i < particleCount; i++) {
-            const p = document.createElement('div');
-            p.classList.add('firework-particle');
-            
-            // particle style
-            p.style.position = 'fixed';
-            p.style.left = `${x}px`;
-            p.style.bottom = `${height + 40}px`;
-            p.style.width = '6px';
-            p.style.height = '6px';
-            p.style.borderRadius = '50%';
-            p.style.background = `hsl(${Math.random() * 360}, 80%, 60%)`;
-            p.style.zIndex = 9998;
-
-            // random scatter direction
-            p.style.transform = `translate(${Math.random()*80 - 40}px, ${Math.random()*80 - 40}px)`;
-
-            // animation
-            p.style.animation = `firework-particle 0.7s ease-out forwards`;
-
-            document.body.appendChild(p);
-
-            // cleanup
-            p.addEventListener('animationend', () => p.remove());
-        }
-
-        if (items.type === 'pop') {
-            setInterval(() => createDecorItem(items.src, 'pop'), 700);
-        }
-    }
-
-    // Create multiple items
-    for (let i = 0; i < items.count; i++) {
-        setTimeout(() => createDecorItem(items.src, items.type), i * 400);
-    }
-
-    // ongoing rain
-    if (items.type === 'rain') {
-        setInterval(() => createDecorItem(items.src, 'rain'), 1200);
-    }
+    // Call the refactored main function
+    startHolidayDecorations(items);
 }
 
+// --- Panel Overlap Check Logic (Remains the same) ---
 const panelEl = document.querySelector('.holiday-panel');
 const aboutSection = document.querySelector('.about');
 const experienceSection = document.querySelectorAll('.experience-item');
