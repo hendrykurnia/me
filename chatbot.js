@@ -1,28 +1,21 @@
 const messagesContainer = document.getElementById('chatbot-messages');
 const inputField = document.getElementById('chatbot-input');
 const header = document.getElementById('chatbot-header');
+const chatbotContainer = document.getElementById('chatbot-container');
+const chatbotBubble = document.getElementById('chatbot-bubble');
 const knowledgebase_url = "https://raw.githubusercontent.com/hendrykurnia/me/main/knowledgebase.csv";
 
-let isOpen = true;
+let isOpen = false; // Initial state: closed
 let knowledgeBase = [];
 
-// Toggle chatbot
-header.addEventListener('click', () => {
-    isOpen = !isOpen;
-    messagesContainer.style.display = isOpen ? 'block' : 'none';
-    inputField.style.display = isOpen ? 'block' : 'none';
-});
-
-// Load CSV knowledge base
+// --- Load Knowledge Base (UNCHANGED) ---
 async function loadKnowledgeBase() {
     try {
         const response = await fetch(knowledgebase_url);
         const text = await response.text();
-
-        const lines = text.split('\n').slice(1); // skip header
-
+        const lines = text.split('\n').slice(1);
         knowledgeBase = lines.map(line => {
-            const parts = line.split(/,(.+)/); // split only first comma
+            const parts = line.split(/,(.+)/);
             return {
                 keyword: parts[0].trim().toLowerCase(),
                 answer: parts[1] ? parts[1].trim().replace(/^"|"$/g, '') : ""
@@ -32,10 +25,43 @@ async function loadKnowledgeBase() {
         console.error("Error loading CSV", error);
     }
 }
-
 loadKnowledgeBase();
 
 
+// --- NEW DOCUMENT CLICK-OUTSIDE LISTENER ---
+document.addEventListener('click', (e) => {
+    if (isOpen) {
+        // Check if the click occurred OUTSIDE the main chat container AND OUTSIDE the bubble
+        if (!chatbotContainer.contains(e.target) && !chatbotBubble.contains(e.target)) {
+            // Close the chat
+            isOpen = false;
+            chatbotContainer.style.display = 'none';
+            chatbotBubble.style.display = 'flex';
+        }
+    }
+});
+
+
+// --- EVENT LISTENER FOR THE FLOATING BUBBLE (To OPEN) ---
+chatbotBubble.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    isOpen = true; 
+    // Show the entire container, which should automatically display its children (messages, input)
+    chatbotContainer.style.display = 'flex'; 
+    chatbotBubble.style.display = 'none';
+});
+
+
+// --- EVENT LISTENER FOR THE HEADER (To CLOSE) ---
+header.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    isOpen = false;
+    chatbotContainer.style.display = 'none'; 
+    chatbotBubble.style.display = 'flex';
+});
+
+
+// --- Message and Input Handlers (UNCHANGED) ---
 function addMessage(text, sender) {
     const msg = document.createElement('div');
     msg.classList.add('chatbot-message', sender);
@@ -53,12 +79,12 @@ function getResponse(input) {
             return entry.answer;
         }
     }
-
     return "Sorry, I don't have an answer for that yet.";
 }
 
-inputField.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && inputField.value.trim() !== "") {
+inputField.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && inputField.value.trim() !== "") {
+        e.preventDefault();
         const userText = inputField.value.trim();
         addMessage(userText, 'user');
         addMessage(getResponse(userText), 'bot');

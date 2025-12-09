@@ -1,17 +1,73 @@
-#chatbot-container {
+/* --- EXISTING CSS for the Floating Bubble --- */
+#chatbot-bubble {
     position: fixed;
     bottom: 20px;
+    right: 20px;
+    width: 60px; 
+    height: 60px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border-radius: 50%; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem; 
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.3s ease;
+}
+
+#chatbot-bubble::after {
+    content: '💬';
+}
+
+/* --- NEW CSS for Hover Text --- */
+#chatbot-bubble:hover {
+    transform: scale(1.05);
+}
+
+#chatbot-bubble:hover::before {
+    content: "Chat with Hendry";
+    position: absolute;
+    right: 70px; /* Position the text to the left of the bubble */
+    background: #4a5568; /* Dark background for the tooltip */
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    white-space: nowrap; /* Keep text on one line */
+    font-size: 0.9rem;
+    font-weight: 500;
+    /* Center the text vertically next to the bubble */
+    top: 50%; 
+    transform: translateY(-50%);
+    /* Simple fade-in effect */
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* To ensure the text is invisible when not hovering, you may need to explicitly hide it first */
+#chatbot-bubble::before {
+    content: ""; /* Must be present but empty */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* --- UPDATE #chatbot-container to be hidden by default --- */
+#chatbot-container {
+    position: fixed;
+    bottom: 90px; /* Position above the bubble */
     right: 20px;
     width: 300px;
     max-height: 400px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    display: flex;
+    display: none; /* CRITICAL: Hides the main chat window by default */
     flex-direction: column;
     font-family: 'Inter', sans-serif;
     overflow: hidden;
-    z-index: 9999;
+    z-index: 9998; /* Lower z-index than the bubble */
 }
 
 #chatbot-header {
@@ -27,20 +83,35 @@
     padding: 0.5rem;
     overflow-y: auto;
     font-size: 0.9rem;
+    
+    /* --- CRITICAL FLEXBOX ALIGNMENT FIXES --- */
+    display: flex;
+    flex-direction: column; /* Stacks messages vertically */
+    align-items: flex-start; /* Default alignment (for bot messages) */
+    /* -------------------------------------- */
 }
 
 .chatbot-message {
     margin-bottom: 0.5rem;
+    max-width: 80%; /* Ensures bubbles don't take up the full width */
+    word-wrap: break-word; /* Essential for breaking long words */
+    padding: 0.6rem 0.8rem; /* Padding for the bubble */
+    border-radius: 15px; /* Smoother bubble shape */
+    line-height: 1.4;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
 .chatbot-message.user {
-    text-align: right;
-    color: #2575fc;
+    background: #2575fc;
+    color: #fff;
+    /* --- NEW ALIGNMENT RULE --- */
+    align-self: flex-end; /* Overrides the parent and pushes this specific bubble to the right */
 }
 
 .chatbot-message.bot {
-    text-align: left;
-    color: #1f2937;
+    background: #e5e7eb; /* Bot bubble background */
+    color: #1f2937; /* Bot text color */
+    /* alignment is naturally handled by the parent's align-items: flex-start */
 }
 
 #chatbot-input {
@@ -48,6 +119,14 @@
     border-top: 1px solid #e2e8f0;
     padding: 0.7rem;
     font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
     outline: none;
     width: 100%;
+    
+    /* --- NEW/UPDATED STYLES FOR TEXTAREA --- */
+    resize: none; /* Prevents the user from manually resizing the box */
+    min-height: 20px; /* Adjust to match initial single-line height */
+    max-height: 100px; /* Optional: Sets a maximum height before it scrolls */
+    overflow-y: auto; /* Allows vertical scrolling when max-height is reached */
+    box-sizing: border-box; /* Crucial: Ensures padding doesn't push the width over 100% */
 }
