@@ -76,7 +76,10 @@ function getResponse(input) {
     for (let entry of knowledgeBase) {
         const regex = new RegExp(`\\b${entry.keyword.toLowerCase()}\\b`);
         if (regex.test(lower)) {
-            return entry.answer;
+            // Check if the answer is present and not just whitespace
+            if (entry.answer && entry.answer.trim().length > 0) { 
+                return entry.answer;
+            }
         }
     }
     return "Sorry, I don't have an answer for that yet.";
