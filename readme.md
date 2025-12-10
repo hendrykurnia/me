@@ -102,5 +102,24 @@ To connect with Hendry:
 
 - **Email:** hendry.itbizpro@gmail.com  
 - **Phone:** (669) 238-9972  
-- **LinkedIn:** [linkedin.com/in/hendrykurnia](https://linkedin.com/in/hendrykurnia)  
+- **LinkedIn:** https://linkedin.com/in/hendrykurnia  
 - **Location:** Patterson, California, United States
+
+---
+
+## 📦 Releases
+
+### **2025-12-09**
+- Updated chatbot appearance
+
+### **2025-12-08**
+- Added download resume feature
+
+### **2025-12-05**
+- Added knowledge base
+
+### **2025-12-04**
+- Added holiday-decor feature
+
+### **2025-12-03**
+- Added chatbot feature
