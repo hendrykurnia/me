@@ -106,16 +106,6 @@ function typeMessage(htmlText, sender) {
     });
 }
 
-// --- Typing indicator ---
-function showTypingIndicator() {
-    const indicator = document.createElement('div');
-    indicator.id = 'typing-indicator';
-    indicator.classList.add('chatbot-message', 'bot');
-    indicator.innerHTML = 'Typing...';
-    messagesContainer.appendChild(indicator);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-
 function removeTypingIndicator() {
     const indicator = document.getElementById('typing-indicator');
     if (indicator) indicator.remove();
@@ -145,9 +135,6 @@ inputField.addEventListener('keydown', function(e) {
         const userText = inputField.value.trim();
         addMessage(userText, 'user');
         inputField.value = '';
-
-        // show typing indicator
-        showTypingIndicator();
 
         const botReply = getResponse(userText);
 
