@@ -82,7 +82,7 @@ function getResponse(input) {
             }
         }
     }
-    return "Sorry, I don't have an answer for that yet.";
+    return "I’m not able to provide that information at this moment. Please call <a href='tel:6692389972'>(669)238-9972</a> or <br> email to <a href='mailto:hendry.itbizpro@gmail.com'>hendry.itbizpro@gmail.com</a> for more details.";
 }
 
 inputField.addEventListener('keydown', function(e) {
