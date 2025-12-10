@@ -129,4 +129,5 @@
     max-height: 100px; /* Optional: Sets a maximum height before it scrolls */
     overflow-y: auto; /* Allows vertical scrolling when max-height is reached */
     box-sizing: border-box; /* Crucial: Ensures padding doesn't push the width over 100% */
+    flex-shrink: 0; /* prevents shrinking */
 }
