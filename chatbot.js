@@ -8,6 +8,7 @@ const knowledgebase_url = "https://raw.githubusercontent.com/hendrykurnia/me/mai
 
 let isOpen = false; // Initial state: closed
 let knowledgeBase = [];
+let greeted = false; // new flag
 
 // --- Load Knowledge Base (UNCHANGED) ---
 async function loadKnowledgeBase() {
@@ -45,6 +46,12 @@ chatbotBubble.addEventListener('click', (e) => {
     isOpen = true; 
     chatbotContainer.style.display = 'flex'; 
     chatbotBubble.style.display = 'none';
+    
+    if (!greeted) {
+        greeted = true;
+        const initialMessage = "Hello! I’m here to help you learn more about my work and expertise. How can I assist you today?";
+        typeMessage(initialMessage, 'bot');
+    }
 });
 
 // --- CLOSE CHAT ---
