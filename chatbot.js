@@ -152,6 +152,12 @@ function getResponse(input) {
     return "I’m not able to provide that information at this moment. Please call <a href='tel:6692389972'>(669)238-9972</a> or <br> email to <a href='mailto:hendry.itbizpro@gmail.com'>hendry.itbizpro@gmail.com</a> for more details.";
 }
 
+function isValidEmail(email) {
+    // Basic but reliable email format check
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
 // --- Function to get information about the visitor ---
 function showIntroForm() {
     const bubbleWrapper = document.createElement("div");
@@ -194,20 +200,37 @@ function showIntroForm() {
         const email = document.getElementById('user-email').value.trim();
         const message = document.getElementById('user-message').value.trim();
 
+        // Validate Input
         if (!name || !email) {
             alert("Please fill in both Name and Email.");
             return;
         }
 
-        const mailtoLink = `mailto:hendry.itbizpro@gmail.com?subject=Exciting%20Career%20Opportunity!!!%20Let's%20connect!!!&body=Name:%20${encodeURIComponent(name)}%0AEmail:%20${encodeURIComponent(email)}%0A%0AMessage:%0A${encodeURIComponent(message)}`;
-        window.location.href = mailtoLink;
+        if (!isValidEmail(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
 
-        // REMOVE WHOLE BUBBLE ⭐
-        document.getElementById("intro-bubble").remove();
+        // EmailJS sending
+        emailjs.send("service_m6xi1so", "template_6wzitzb", {
+            name: name,
+            email: email,
+            message: message,
+            subject: "Exciting Career Opportunity!!! Let's Connect!!!"
+        })
+        .then(() => {
 
-        addMessage("Hello! I’m here to help you learn more about my work and expertise. <br><br>Could you tell me more about yourself?", "bot")
-        addMessage("Email sent", "user");
-        typeMessage("Thank you!!! How can I assist you today?", "bot");
+            // REMOVE WHOLE BUBBLE ⭐
+            document.getElementById("intro-bubble").remove();
+
+            addMessage("Hello! I’m here to help you learn more about my work and expertise. <br><br>Could you tell me more about yourself?", "bot")
+            addMessage("Email sent", "user");
+            typeMessage("Thank you!!! How can I assist you today?", "bot");
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("Failed to send email. Please try again.");
+        });
     });
 
     // --- SKIP ---
