@@ -110,6 +110,9 @@ To connect with Hendry:
 ## 📦 Releases
 
 ### **2025-12-09**
+- Added typing animation to chatbot
+
+### **2025-12-09**
 - Updated chatbot appearance
 
 ### **2025-12-08**

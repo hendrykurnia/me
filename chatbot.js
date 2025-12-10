@@ -1,3 +1,4 @@
+// --- Load chatbot elements and knowledgebase ---
 const messagesContainer = document.getElementById('chatbot-messages');
 const inputField = document.getElementById('chatbot-input');
 const header = document.getElementById('chatbot-header');
@@ -27,13 +28,10 @@ async function loadKnowledgeBase() {
 }
 loadKnowledgeBase();
 
-
-// --- NEW DOCUMENT CLICK-OUTSIDE LISTENER ---
+// --- CLICK OUTSIDE TO CLOSE ---
 document.addEventListener('click', (e) => {
     if (isOpen) {
-        // Check if the click occurred OUTSIDE the main chat container AND OUTSIDE the bubble
         if (!chatbotContainer.contains(e.target) && !chatbotBubble.contains(e.target)) {
-            // Close the chat
             isOpen = false;
             chatbotContainer.style.display = 'none';
             chatbotBubble.style.display = 'flex';
@@ -41,18 +39,15 @@ document.addEventListener('click', (e) => {
     }
 });
 
-
-// --- EVENT LISTENER FOR THE FLOATING BUBBLE (To OPEN) ---
+// --- OPEN CHAT ---
 chatbotBubble.addEventListener('click', (e) => {
     e.stopPropagation(); 
     isOpen = true; 
-    // Show the entire container, which should automatically display its children (messages, input)
     chatbotContainer.style.display = 'flex'; 
     chatbotBubble.style.display = 'none';
 });
 
-
-// --- EVENT LISTENER FOR THE HEADER (To CLOSE) ---
+// --- CLOSE CHAT ---
 header.addEventListener('click', (e) => {
     e.stopPropagation(); 
     isOpen = false;
@@ -60,8 +55,7 @@ header.addEventListener('click', (e) => {
     chatbotBubble.style.display = 'flex';
 });
 
-
-// --- Message and Input Handlers (UNCHANGED) ---
+// --- ADD MESSAGE (unchanged for user messages) ---
 function addMessage(text, sender) {
     const msg = document.createElement('div');
     msg.classList.add('chatbot-message', sender);
@@ -70,27 +64,97 @@ function addMessage(text, sender) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
+// --- BOT TYPING EFFECT ---
+function typeMessage(htmlText, sender) {
+    return new Promise(resolve => {
+        const msg = document.createElement('div');
+        msg.classList.add('chatbot-message', sender);
+        messagesContainer.appendChild(msg);
+
+        let i = 0;
+        let content = '';
+        const speed = 18; // typing speed in milliseconds (faster)
+
+        function type() {
+            if (i >= htmlText.length) {
+                resolve();
+                return;
+            }
+
+            if (htmlText[i] === '<') {
+                // If it's an HTML tag, add the full tag immediately
+                const endTag = htmlText.indexOf('>', i);
+                if (endTag !== -1) {
+                    content += htmlText.substring(i, endTag + 1);
+                    i = endTag + 1;
+                    msg.innerHTML = content;
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    type(); // continue immediately
+                    return;
+                }
+            } else {
+                // Normal character: append one character at a time
+                content += htmlText[i];
+                i++;
+                msg.innerHTML = content;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                setTimeout(type, speed);
+            }
+        }
+
+        type();
+    });
+}
+
+// --- Typing indicator ---
+function showTypingIndicator() {
+    const indicator = document.createElement('div');
+    indicator.id = 'typing-indicator';
+    indicator.classList.add('chatbot-message', 'bot');
+    indicator.innerHTML = 'Typing...';
+    messagesContainer.appendChild(indicator);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+}
+
+// --- Response Logic ---
 function getResponse(input) {
     const lower = input.toLowerCase();
 
     for (let entry of knowledgeBase) {
         const regex = new RegExp(`\\b${entry.keyword.toLowerCase()}\\b`);
         if (regex.test(lower)) {
-            // Check if the answer is present and not just whitespace
             if (entry.answer && entry.answer.trim().length > 0) { 
                 return entry.answer;
             }
         }
     }
+
     return "I’m not able to provide that information at this moment. Please call <a href='tel:6692389972'>(669)238-9972</a> or <br> email to <a href='mailto:hendry.itbizpro@gmail.com'>hendry.itbizpro@gmail.com</a> for more details.";
 }
 
+// --- Input Handler with Typing Effect ---
 inputField.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && inputField.value.trim() !== "") {
         e.preventDefault();
+
         const userText = inputField.value.trim();
         addMessage(userText, 'user');
-        addMessage(getResponse(userText), 'bot');
         inputField.value = '';
+
+        // show typing indicator
+        showTypingIndicator();
+
+        const botReply = getResponse(userText);
+
+        // delay before bot starts typing
+        setTimeout(async () => {
+            removeTypingIndicator();
+            await typeMessage(botReply, 'bot');
+        }, 600);
     }
 });
