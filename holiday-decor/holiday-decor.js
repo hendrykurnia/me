@@ -180,6 +180,7 @@ function startHolidayDecorations(items) {
 const aboutSection = document.querySelector('.about');
 const experienceSection = document.querySelectorAll('.experience-item');
 const skillsSection = document.querySelector('.skills');
+const headerElement = document.querySelector('header');
 
 // Function to run when the tab visibility changes (handles reset and start/stop)
 const handleVisibilityChange = () => {
@@ -237,6 +238,7 @@ function checkPanelOverlap() {
     }
 
     let hide = false;
+    if (headerElement && isOverlapping(panelRect, headerElement.getBoundingClientRect())) hide = true;
     if (aboutSection && isOverlapping(panelRect, aboutSection.getBoundingClientRect())) hide = true;
     if (skillsSection && isOverlapping(panelRect, skillsSection.getBoundingClientRect())) hide = true;
     if (experienceSection) {
