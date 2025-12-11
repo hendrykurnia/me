@@ -1,78 +1,172 @@
-// holiday-decor.js (Full code with Tab Focus Reset and Slow Rain)
+// -------------------------------------------------------------------
+// holiday-decor.js — Full Updated Version
+// -------------------------------------------------------------------
 
 let activeFireworks = 0;
 const MAX_FIREWORKS = 10;
-// Global flag to prevent multiple 'pop' intervals from being set up
-let isPopIntervalRunning = false;
 
-// Global variables to store interval IDs for cleanup
+let isPopIntervalRunning = false;
 let popIntervalId = null;
 let rainIntervalId = null;
 
-// Holiday decor mapping (Remains the same)
+// Ornament size settings
+const ornamentSize = {
+    rain: { min: 80, max: 100 },
+    pop: { min: 60, max: 120 }
+};
+
+// -------------------------------------------------------------------
+// NEW holidayDecor Structure
+// -------------------------------------------------------------------
+
 const holidayDecor = {
     0: {
-        panel: 'holiday-decor/decorations/new-year.png',
-        items: {
-            src: [
+        panel: {
+            items: ['holiday-decor/decorations/new-year.png'],
+            effect: 'jump' // none | dance | jump
+        },
+        ornament: {
+            items: [
                 'holiday-decor/decorations/firework1.png',
-                'holiday-decor/decorations/firework2.png',
+                'holiday-decor/decorations/firework2.png'
             ],
-            type: 'pop',
-            count: 10
+            effect: 'pop'
         }
     },
     6: {
-        panel: 'holiday-decor/decorations/july-4th.png',
-        items: {
-            src: [
-                'holiday-decor/decorations/confetti1.png'
-            ],
-            type: 'pop',
-            count: 12
+        panel: {
+            items: ['holiday-decor/decorations/july-4th.png'],
+            effect: 'jump'
+        },
+        ornament: {
+            items: ['holiday-decor/decorations/confetti1.png'],
+            effect: 'pop'
         }
     },
     9: {
-        panel: 'holiday-decor/decorations/halloween.png',
-        items: {
-            src: [
+        panel: {
+            items: ['holiday-decor/decorations/halloween.png'],
+            effect: 'dance'
+        },
+        ornament: {
+            items: [
                 'holiday-decor/decorations/pumpkin.png',
                 'holiday-decor/decorations/spider.png',
                 'holiday-decor/decorations/bat.png'
             ],
-            type: 'rain',
-            count: 20
+            effect: 'rain'
         }
     },
     10: {
-        panel: 'holiday-decor/decorations/thanksgiving.png',
-        items: {
-            src: [
+        panel: {
+            items: ['holiday-decor/decorations/thanksgiving.png'],
+            effect: 'jump'
+        },
+        ornament: {
+            items: [
                 'holiday-decor/decorations/maple-leaf1.png',
                 'holiday-decor/decorations/maple-leaf2.png'
             ],
-            type: 'rain',
-            count: 20
+            effect: 'rain'
         }
     },
     11: {
-        panel: 'holiday-decor/decorations/christmas.png',
-        items: {
-            src: [
+        panel: {
+            items: ['holiday-decor/decorations/christmas.png'],
+            effect: 'dance'
+        },
+        ornament: {
+            items: [
                 'holiday-decor/decorations/snowflake1.png',
-                'holiday-decor/decorations/snowflake2.png',
-                'holiday-decor/decorations/candy.png'
+                'holiday-decor/decorations/snowflake2.png'
             ],
-            type: 'rain',
-            count: 25
+            effect: 'rain'
         }
     }
 };
 
 // -------------------------------------------------------------------
-// --- Helper Functions ---
+// Panel Effects
+// -------------------------------------------------------------------
 
-function createExplosion(x, height, items) {
+function applyPanelDanceEffect(panelEl) {
+    panelEl.style.animation = `dance 4s ease-in-out infinite`;
+}
+
+function applyPanelJumpEffect(panelEl) {
+    panelEl.style.animation = `jump 1.8s ease-in-out infinite`;
+}
+
+function applyPanelEffect(panelEl, effect) {
+    if (!effect || effect === 'none') return;
+
+    if (effect === 'dance') applyPanelDanceEffect(panelEl);
+    if (effect === 'jump') applyPanelJumpEffect(panelEl);
+}
+
+// -------------------------------------------------------------------
+// Ornament Effects
+// -------------------------------------------------------------------
+
+// Rain (slow fall)
+function runRainEffect(el, srcList) {
+    const finalSrc = srcList[Math.floor(Math.random() * srcList.length)];
+    el.src = finalSrc;
+
+    el.style.top = '-80px';
+    el.style.animation = `rain ${10 + Math.random() * 10}s linear forwards`;
+
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+}
+
+// Pop (fireworks)
+function runPopEffect(el, srcList, ornament) {
+    if (activeFireworks >= MAX_FIREWORKS) return;
+
+    // Set image source
+    const finalSrc = srcList[Math.floor(Math.random() * srcList.length)];
+    el.src = finalSrc;
+
+    // --- Set size based on pop range ---
+    const sizeRange = ornamentSize.pop;
+    const size = sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min);
+    el.style.width = `${size}px`;
+
+    activeFireworks++;
+
+    const x = Math.random() * window.innerWidth;
+    const height = 250 + Math.random() * 250;
+
+    el.style.left = `${x}px`;
+    el.style.bottom = '-40px';
+    el.style.setProperty('--launch-height', `-${height}px`);
+    el.style.setProperty('--rot-start', `${Math.random()*40-20}deg`);
+    el.style.setProperty('--rot-mid', `${Math.random()*40-20}deg`);
+    el.style.setProperty('--rot-end', `${Math.random()*40-20}deg`);
+    el.style.animation = `firework-launch ${1.5 + Math.random() * 0.7}s ease-out forwards`;
+
+    document.body.appendChild(el);
+
+    el.addEventListener('animationend', () => {
+        el.remove();
+        activeFireworks--;
+        createExplosion(x, height);
+    });
+
+    // Continuous pop loop (fires only once)
+    if (!isPopIntervalRunning) {
+        isPopIntervalRunning = true;
+        popIntervalId = setInterval(() => {
+            const newEl = document.createElement('img');
+            newEl.className = 'holiday-decor-item';
+            runPopEffect(newEl, srcList, ornament);
+        }, 700);
+    }
+}
+
+// Pop explosion particles
+function createExplosion(x, height, ornament) {
     const particleCount = 6 + Math.floor(Math.random() * 5);
     for (let i = 0; i < particleCount; i++) {
         const p = document.createElement('div');
@@ -87,59 +181,52 @@ function createExplosion(x, height, items) {
         p.style.zIndex = 9998;
         p.style.transform = `translate(${Math.random()*80 - 40}px, ${Math.random()*80 - 40}px)`;
         p.style.animation = 'firework-particle 0.7s ease-out forwards';
+
         document.body.appendChild(p);
         p.addEventListener('animationend', () => p.remove());
     }
 
-    // Pop interval is now handled here and only runs if visible
-    if (items.type === 'pop' && document.visibilityState === 'visible' && !isPopIntervalRunning) {
+    // Start continuous pop loop (fires only when visible)
+    if (ornament.effect === 'pop' &&
+        document.visibilityState === 'visible' &&
+        !isPopIntervalRunning) {
+
         isPopIntervalRunning = true;
-        popIntervalId = setInterval(() => createDecorItem(items.src, 'pop', items), 700);
+        popIntervalId = setInterval(
+            () => createDecorItem(ornament.items, 'pop', ornament),
+            700
+        );
     }
 }
 
-function createDecorItem(src, type, items) {
+// -------------------------------------------------------------------
+// Item Creation
+// -------------------------------------------------------------------
+
+function createDecorItem(srcList, effect, ornament) {
     const el = document.createElement('img');
-    const finalSrc = Array.isArray(src) ? src[Math.floor(Math.random() * src.length)] : src;
-    el.src = finalSrc;
     el.className = 'holiday-decor-item';
 
-    const size = 40 + Math.random() * 80;
+    // Choose size based on effect
+    const sizeRange = ornamentSize[effect] || { min: 40, max: 80 };
+    const size = sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min);
     el.style.width = `${size}px`;
-    el.style.setProperty('--item-opacity', (0.35 + Math.random() * 0.65).toString());
+
     el.style.left = `${Math.random() * window.innerWidth}px`;
+    el.style.setProperty('--item-opacity', (0.35 + Math.random() * 0.65).toString());
 
-    if (type === 'rain') {
-        el.style.top = '-80px';
-        // --- SLOWER FALL SPEED: Duration 10s to 20s ---
-        el.style.animation = `rain ${10 + Math.random() * 10}s linear forwards`;
-        
+    if (effect === 'rain') runRainEffect(el, srcList);
+    else if (effect === 'pop') runPopEffect(el, srcList, ornament);
+    else {
+        el.src = srcList[Math.floor(Math.random() * srcList.length)];
         document.body.appendChild(el);
-        el.addEventListener('animationend', () => el.remove());
-    } else if (type === 'pop') {
-        if (activeFireworks >= MAX_FIREWORKS) return;
-
-        activeFireworks++;
-        const x = Math.random() * window.innerWidth;
-        el.style.left = `${x}px`;
-        el.style.bottom = '-40px';
-        const height = Math.floor(250 + Math.random() * 250);
-        el.style.setProperty('--launch-height', `-${height}px`);
-        el.style.setProperty('--rot-start', `${Math.random() * 40 - 20}deg`);
-        el.style.setProperty('--rot-mid', `${Math.random() * 40 - 20}deg`);
-        el.style.setProperty('--rot-end', `${Math.random() * 40 - 20}deg`);
-        el.style.animation = `firework-launch ${1.5 + Math.random() * 0.7}s ease-out forwards`;
-        document.body.appendChild(el);
-        
-        el.addEventListener('animationend', () => {
-            el.remove();
-            activeFireworks--;
-        });
-        setTimeout(() => createExplosion(x, height, items), 1300);
     }
 }
 
-// Function to stop the decoration process and clean up intervals and elements
+// -------------------------------------------------------------------
+// Start / Stop Decorations
+// -------------------------------------------------------------------
+
 function stopHolidayDecorations() {
     if (rainIntervalId !== null) {
         clearInterval(rainIntervalId);
@@ -152,110 +239,98 @@ function stopHolidayDecorations() {
         isPopIntervalRunning = false;
     }
 
-    // Remove all existing decor items and particles from the DOM
     document.querySelectorAll('.holiday-decor-item').forEach(el => el.remove());
     document.querySelectorAll('.firework-particle').forEach(el => el.remove());
-    
-    // Remove the panel element if it exists
+
     const panelEl = document.querySelector('.holiday-panel');
-    if (panelEl) {
-        panelEl.remove();
-    }
+    if (panelEl) panelEl.remove();
 }
 
-// Function to start the decoration process (NOTE: No continuous interval here anymore!)
-function startHolidayDecorations(items) {
-    // Create initial items
-    for (let i = 0; i < items.count; i++) {
-        setTimeout(() => createDecorItem(items.src, items.type, items), i * 400);
+function startHolidayDecorations(ornament) {
+    for (let i = 0; i <  ornament.items.length; i++) {
+        setTimeout(() => createDecorItem(ornament.items, ornament.effect, ornament), i * 400);
     }
-
-    // The continuous 'rain' interval is now handled by the visibilitychange listener.
-    // The continuous 'pop' interval is handled inside createExplosion on the first fire.
 }
 
 // -------------------------------------------------------------------
-// --- Main Execution and Event Listeners ---
+// Visibility Detection (reset on tab change)
+// -------------------------------------------------------------------
 
 const aboutSection = document.querySelector('.about');
 const experienceSection = document.querySelectorAll('.experience-item');
 const skillsSection = document.querySelector('.skills');
 const headerElement = document.querySelector('header');
 
-// Function to run when the tab visibility changes (handles reset and start/stop)
-const handleVisibilityChange = () => {
+function handleVisibilityChange() {
     const isVisible = document.visibilityState === 'visible';
-    const currentMonth = new Date().getMonth(); // Use fixed month for testing
+    const currentMonth = new Date().getMonth();
 
-    // --- CRITICAL: Always reset and restart on visible ---
     if (isVisible) {
-        stopHolidayDecorations(); // 1. Cleanup old decorations and intervals
+        stopHolidayDecorations();
 
-        if (holidayDecor[currentMonth]) {
-            const { panel, items } = holidayDecor[currentMonth];
+        const config = holidayDecor[currentMonth];
+        if (config) {
+            const { panel, ornament } = config;
 
-            // 2. Add panel
             const panelEl = document.createElement('div');
             panelEl.className = 'holiday-panel';
-            panelEl.innerHTML = `<img src="${panel}" alt="">`;
+            panelEl.innerHTML = `<img src="${panel.items[0]}" alt="">`;
             document.body.appendChild(panelEl);
 
-            // 3. Start initial burst/launch
-            startHolidayDecorations(items);
+            // apply panel animation
+            applyPanelEffect(panelEl, panel.effect);
 
-            // 4. Start continuous rain animation (if applicable)
-            if (items.type === 'rain' && rainIntervalId === null) {
-                // Change 1200 to 2500 or higher for less frequent rain generation
-                rainIntervalId = setInterval(() => createDecorItem(items.src, 'rain'), 2500);
+            startHolidayDecorations(ornament);
+
+            if (ornament.effect === 'rain' && rainIntervalId === null) {
+                rainIntervalId = setInterval(
+                    () => createDecorItem(ornament.items, 'rain', ornament),
+                    2500
+                );
             }
         }
-        checkPanelOverlap(); // 5. Run initial overlap check
+
+        checkPanelOverlap();
     } else {
-        // --- Tab is HIDDEN: Stop continuous animations ---
-        stopHolidayDecorations(); 
+        stopHolidayDecorations();
     }
-};
+}
 
-// 1. Initial run on page load
+// Initial call
 handleVisibilityChange();
-
-// 2. Add event listener for tab switching
 document.addEventListener('visibilitychange', handleVisibilityChange);
 
-// --- Panel Overlap Check Logic (Remains the same) ---
+// -------------------------------------------------------------------
+// Panel Overlap Logic
+// -------------------------------------------------------------------
+
 function checkPanelOverlap() {
     const panelEl = document.querySelector('.holiday-panel');
     if (!panelEl) return;
+
     const panelRect = panelEl.getBoundingClientRect();
 
-    function isOverlapping(rect1, rect2) {
+    function isOverlapping(r1, r2) {
         return !(
-            rect1.bottom < rect2.top ||
-            rect1.top > rect2.bottom ||
-            rect1.right < rect2.left ||
-            rect1.left > rect2.right
+            r1.bottom < r2.top ||
+            r1.top > r2.bottom ||
+            r1.right < r2.left ||
+            r1.left > r2.right
         );
     }
 
     let hide = false;
+
     if (headerElement && isOverlapping(panelRect, headerElement.getBoundingClientRect())) hide = true;
     if (aboutSection && isOverlapping(panelRect, aboutSection.getBoundingClientRect())) hide = true;
     if (skillsSection && isOverlapping(panelRect, skillsSection.getBoundingClientRect())) hide = true;
-    if (experienceSection) {
-        experienceSection.forEach(item => {
-            if (isOverlapping(panelRect, item.getBoundingClientRect())) hide = true;
-        });
-    }
+    experienceSection.forEach(item => {
+        if (isOverlapping(panelRect, item.getBoundingClientRect())) hide = true;
+    });
 
-    if (hide) {
-        panelEl.style.opacity = '0';
-        panelEl.style.pointerEvents = 'none';
-    } else {
-        panelEl.style.opacity = '1';
-        panelEl.style.pointerEvents = 'auto';
-    }
+    panelEl.style.opacity = hide ? '0' : '1';
+    panelEl.style.pointerEvents = hide ? 'none' : 'auto';
 }
 
-// Run on scroll and resize
 window.addEventListener('scroll', checkPanelOverlap);
 window.addEventListener('resize', checkPanelOverlap);
