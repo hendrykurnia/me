@@ -93,6 +93,27 @@ inputField.addEventListener('keydown', function(e) {
     }
 });
 
+document.getElementById("contact-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Remove any previously opened form
+    const oldForm = document.getElementById("intro-bubble");
+    if (oldForm) oldForm.remove();
+
+    // Open chatbox
+    isOpen = true;
+    chatbotContainer.style.display = 'flex';
+    chatbotBubble.style.display = 'none';
+
+    // Show form
+    showIntroForm(
+        "Please fill out your details and I will get back to you shortly:"
+    );
+
+    greeted = true; // prevent default greeting from firing later
+});
+
 // --- ADD MESSAGE (unchanged for user messages) ---
 function addMessage(text, sender) {
     const msg = document.createElement('div');
@@ -209,6 +230,13 @@ function showIntroForm(promptText = "Hello! I’m here to help you learn more ab
 
     // Prevent close-on-click
     bubbleWrapper.addEventListener('click', e => e.stopPropagation());
+
+    // Auto-focus the Name field
+    setTimeout(() => {
+        const nameField = document.getElementById("user-name");
+        if (nameField) nameField.focus();
+    }, 50);
+
 
     const sendBtn = bubbleWrapper.querySelector("#send-btn");
     const skipBtn = bubbleWrapper.querySelector("#skip-btn");
