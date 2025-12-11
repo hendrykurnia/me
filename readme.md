@@ -109,8 +109,9 @@ To connect with Hendry:
 
 ## 📦 Releases
 
-### **2025-12-09**
+### **2025-12-10**
 - Added typing animation to chatbot
+- Added emailjs email engine to chatbot
 
 ### **2025-12-09**
 - Updated chatbot appearance
