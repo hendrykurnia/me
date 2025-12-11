@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------
-// holiday-decor.js — Full Updated Version
+// holiday-decor.js — Refactored Version with per-item size
 // -------------------------------------------------------------------
 
 let activeFireworks = 0;
@@ -9,44 +9,45 @@ let isPopIntervalRunning = false;
 let popIntervalId = null;
 let rainIntervalId = null;
 
-// Ornament size settings
-const ornamentSize = {
-    rain: { min: 80, max: 100 },
-    pop: { min: 60, max: 120 }
-};
-
 // -------------------------------------------------------------------
-// NEW holidayDecor Structure
+// NEW holidayDecor Structure with size
 // -------------------------------------------------------------------
 
 const holidayDecor = {
     0: {
         panel: {
             items: ['holiday-decor/decorations/new-year.png'],
-            effect: 'jump' // none | dance | jump
+            effect: 'jump', // none | dance | jump
+            size: 240
         },
         ornament: {
             items: [
                 'holiday-decor/decorations/firework1.png',
                 'holiday-decor/decorations/firework2.png'
             ],
-            effect: 'pop'
+            effect: 'pop',
+            "min-size": 60,
+            "max-size": 180
         }
     },
     6: {
         panel: {
             items: ['holiday-decor/decorations/july-4th.png'],
-            effect: 'jump'
+            effect: 'jump',
+            size: 200
         },
         ornament: {
             items: ['holiday-decor/decorations/confetti1.png'],
-            effect: 'pop'
+            effect: 'pop',
+            "min-size": 60,
+            "max-size": 180
         }
     },
     9: {
         panel: {
             items: ['holiday-decor/decorations/halloween.png'],
-            effect: 'dance'
+            effect: 'dance',
+            size: 260
         },
         ornament: {
             items: [
@@ -54,33 +55,41 @@ const holidayDecor = {
                 'holiday-decor/decorations/spider.png',
                 'holiday-decor/decorations/bat.png'
             ],
-            effect: 'rain'
+            effect: 'rain',
+            "min-size": 40,
+            "max-size": 120
         }
     },
     10: {
         panel: {
             items: ['holiday-decor/decorations/thanksgiving.png'],
-            effect: 'jump'
+            effect: 'jump',
+            size: 280
         },
         ornament: {
             items: [
                 'holiday-decor/decorations/maple-leaf1.png',
                 'holiday-decor/decorations/maple-leaf2.png'
             ],
-            effect: 'rain'
+            effect: 'rain',
+            "min-size": 60,
+            "max-size": 100
         }
     },
     11: {
         panel: {
             items: ['holiday-decor/decorations/christmas.png'],
-            effect: 'dance'
+            effect: 'dance',
+            size: 200
         },
         ornament: {
             items: [
                 'holiday-decor/decorations/snowflake1.png',
                 'holiday-decor/decorations/snowflake2.png'
             ],
-            effect: 'rain'
+            effect: 'rain',
+            "min-size": 40,
+            "max-size": 100
         }
     }
 };
@@ -99,7 +108,6 @@ function applyPanelJumpEffect(panelEl) {
 
 function applyPanelEffect(panelEl, effect) {
     if (!effect || effect === 'none') return;
-
     if (effect === 'dance') applyPanelDanceEffect(panelEl);
     if (effect === 'jump') applyPanelJumpEffect(panelEl);
 }
@@ -109,9 +117,13 @@ function applyPanelEffect(panelEl, effect) {
 // -------------------------------------------------------------------
 
 // Rain (slow fall)
-function runRainEffect(el, srcList) {
+function runRainEffect(el, srcList, ornament) {
     const finalSrc = srcList[Math.floor(Math.random() * srcList.length)];
     el.src = finalSrc;
+
+    // Size based on ornament payload
+    const size = ornament["min-size"] + Math.random() * (ornament["max-size"] - ornament["min-size"]);
+    el.style.width = `${size}px`;
 
     el.style.top = '-80px';
     el.style.animation = `rain ${10 + Math.random() * 10}s linear forwards`;
@@ -124,13 +136,11 @@ function runRainEffect(el, srcList) {
 function runPopEffect(el, srcList, ornament) {
     if (activeFireworks >= MAX_FIREWORKS) return;
 
-    // Set image source
     const finalSrc = srcList[Math.floor(Math.random() * srcList.length)];
     el.src = finalSrc;
 
-    // --- Set size based on pop range ---
-    const sizeRange = ornamentSize.pop;
-    const size = sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min);
+    // Size based on ornament payload
+    const size = ornament["min-size"] + Math.random() * (ornament["max-size"] - ornament["min-size"]);
     el.style.width = `${size}px`;
 
     activeFireworks++;
@@ -154,7 +164,6 @@ function runPopEffect(el, srcList, ornament) {
         createExplosion(x, height);
     });
 
-    // Continuous pop loop (fires only once)
     if (!isPopIntervalRunning) {
         isPopIntervalRunning = true;
         popIntervalId = setInterval(() => {
@@ -166,7 +175,7 @@ function runPopEffect(el, srcList, ornament) {
 }
 
 // Pop explosion particles
-function createExplosion(x, height, ornament) {
+function createExplosion(x, height) {
     const particleCount = 6 + Math.floor(Math.random() * 5);
     for (let i = 0; i < particleCount; i++) {
         const p = document.createElement('div');
@@ -185,18 +194,6 @@ function createExplosion(x, height, ornament) {
         document.body.appendChild(p);
         p.addEventListener('animationend', () => p.remove());
     }
-
-    // Start continuous pop loop (fires only when visible)
-    if (ornament.effect === 'pop' &&
-        document.visibilityState === 'visible' &&
-        !isPopIntervalRunning) {
-
-        isPopIntervalRunning = true;
-        popIntervalId = setInterval(
-            () => createDecorItem(ornament.items, 'pop', ornament),
-            700
-        );
-    }
 }
 
 // -------------------------------------------------------------------
@@ -207,20 +204,17 @@ function createDecorItem(srcList, effect, ornament) {
     const el = document.createElement('img');
     el.className = 'holiday-decor-item';
 
-    // Choose size based on effect
-    const sizeRange = ornamentSize[effect] || { min: 40, max: 80 };
-    const size = sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min);
-    el.style.width = `${size}px`;
-
-    el.style.left = `${Math.random() * window.innerWidth}px`;
-    el.style.setProperty('--item-opacity', (0.35 + Math.random() * 0.65).toString());
-
-    if (effect === 'rain') runRainEffect(el, srcList);
+    if (effect === 'rain') runRainEffect(el, srcList, ornament);
     else if (effect === 'pop') runPopEffect(el, srcList, ornament);
     else {
+        const size = ornament.size || 80;
+        el.style.width = `${size}px`;
         el.src = srcList[Math.floor(Math.random() * srcList.length)];
         document.body.appendChild(el);
     }
+
+    el.style.left = `${Math.random() * window.innerWidth}px`;
+    el.style.setProperty('--item-opacity', (0.35 + Math.random() * 0.65).toString());
 }
 
 // -------------------------------------------------------------------
@@ -247,13 +241,13 @@ function stopHolidayDecorations() {
 }
 
 function startHolidayDecorations(ornament) {
-    for (let i = 0; i <  ornament.items.length; i++) {
+    for (let i = 0; i < ornament.items.length; i++) {
         setTimeout(() => createDecorItem(ornament.items, ornament.effect, ornament), i * 400);
     }
 }
 
 // -------------------------------------------------------------------
-// Visibility Detection (reset on tab change)
+// Visibility Detection
 // -------------------------------------------------------------------
 
 const aboutSection = document.querySelector('.about');
@@ -277,7 +271,8 @@ function handleVisibilityChange() {
             panelEl.innerHTML = `<img src="${panel.items[0]}" alt="">`;
             document.body.appendChild(panelEl);
 
-            // apply panel animation
+            panelEl.style.width = `${panel.size}px`;
+
             applyPanelEffect(panelEl, panel.effect);
 
             startHolidayDecorations(ornament);
@@ -296,7 +291,6 @@ function handleVisibilityChange() {
     }
 }
 
-// Initial call
 handleVisibilityChange();
 document.addEventListener('visibilitychange', handleVisibilityChange);
 
