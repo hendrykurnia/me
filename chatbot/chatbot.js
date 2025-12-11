@@ -175,9 +175,11 @@ function getResponse(input) {
     const lower = input.toLowerCase();
 
     for (let entry of knowledgeBase) {
-        const regex = new RegExp(`\\b${entry.keyword.toLowerCase()}\\b`);
+        // allow flexible match: thank, thanks, sponsorship, sponsoring, etc.
+        const regex = new RegExp(entry.keyword.toLowerCase(), "i");
+
         if (regex.test(lower)) {
-            if (entry.answer && entry.answer.trim().length > 0) { 
+            if (entry.answer && entry.answer.trim().length > 0) {
                 return entry.answer;
             }
         }
