@@ -197,6 +197,7 @@ function showIntroForm(promptText = "Hello! I’m here to help you learn more ab
                 style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: calc(100% - 20px); font-size: 14px; box-sizing: border-box;">
             <textarea id="user-message" placeholder="Your Message (optional)"
                 style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: calc(100% - 20px); font-size: 14px; resize: vertical; min-height: 60px; box-sizing: border-box;"></textarea>
+            <div id="form-error" style="color: red; font-size: 13px;"></div>
             <div style="display: flex; justify-content: flex-end; gap: 10px;">
                 <button id="skip-btn" style="padding: 8px 16px; background-color: #f0f0f0; border: none; border-radius: 5px; cursor: pointer; font-weight: 500;">Skip</button>
                 <button id="send-btn" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500;">Send</button>
@@ -222,13 +223,16 @@ function showIntroForm(promptText = "Hello! I’m here to help you learn more ab
         const message = document.getElementById('user-message').value.trim();
 
         // Validate Input
+        const errorBox = document.getElementById("form-error");
+        errorBox.textContent = ""; // clear previous errors
+
         if (!name || !email) {
-            alert("Please fill in both Name and Email.");
+            errorBox.textContent = "Please fill in both Name and Email.";
             return;
         }
 
         if (!isValidEmail(email)) {
-            alert("Please enter a valid email address.");
+            errorBox.textContent = "Please enter a valid email address.";
             return;
         }
 
