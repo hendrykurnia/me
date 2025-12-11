@@ -5,6 +5,7 @@ const header = document.getElementById('chatbot-header');
 const chatbotContainer = document.getElementById('chatbot-container');
 const chatbotBubble = document.getElementById('chatbot-bubble');
 const knowledgebase_url = "https://raw.githubusercontent.com/hendrykurnia/me/main/knowledgebase.csv";
+const contactKeywords = ['contact', 'reach out', 'get in touch', 'connect'];
 
 let isOpen = false; // Initial state: closed
 let knowledgeBase = [];
@@ -66,9 +67,21 @@ inputField.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && inputField.value.trim() !== "") {
         e.preventDefault();
 
+        // --- Auto-skip the form if it's open ---
+        autoSkipForm();
+
         const userText = inputField.value.trim();
         addMessage(userText, 'user');
         inputField.value = '';
+
+        // --- Check if input includes contact keywords ---
+        const lowerText = userText.toLowerCase();
+        const wantsContact = contactKeywords.some(keyword => lowerText.includes(keyword));
+
+        if (wantsContact) {
+            showIntroForm("Please call me at <a href='tel:6692389972'><br>(669)238-9972</a> or <br>send email to <br><a href='mailto:hendry.itbizpro@gmail.com'>hendry.itbizpro@gmail.com</a> or <br>fill in the following form:");  // Display the form again
+            return;           // Stop further response for now
+        }
 
         const botReply = getResponse(userText);
 
@@ -158,17 +171,25 @@ function isValidEmail(email) {
     return regex.test(email);
 }
 
+function autoSkipForm(promtText) {
+    const introBubble = document.getElementById("intro-bubble");
+    if (introBubble) {
+        introBubble.remove();
+        addMessage("How can I assist you today?", "bot");
+    }
+}
+
 // --- Function to get information about the visitor ---
-function showIntroForm() {
+function showIntroForm(promptText = "Hello! I’m here to help you learn more about my work and expertise. <br><br>Could you tell me more about yourself?") {
     const bubbleWrapper = document.createElement("div");
     bubbleWrapper.classList.add("chatbot-message", "bot");
-    bubbleWrapper.id = "intro-bubble";  // ⭐ wrapper so we can remove full bubble
+    bubbleWrapper.id = "intro-bubble";
     messagesContainer.appendChild(bubbleWrapper);
 
     const formHtml = `
         <div id="intro-form" style="display: flex; flex-direction: column; gap: 10px; padding: 10px; box-sizing: border-box; width: 100%;">
             <p style="margin: 0 0 5px 0; font-weight: 500;">
-                Hello! I’m here to help you learn more about my work and expertise. <br><br>Could you tell me more about yourself?
+                ${promptText}
             </p>
             <input type="text" id="user-name" placeholder="Your Name" required
                 style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: calc(100% - 20px); font-size: 14px; box-sizing: border-box;">
@@ -223,7 +244,7 @@ function showIntroForm() {
             // REMOVE WHOLE BUBBLE ⭐
             document.getElementById("intro-bubble").remove();
 
-            addMessage("Hello! I’m here to help you learn more about my work and expertise. <br><br>Could you tell me more about yourself?", "bot")
+            addMessage(promptText, "bot")
             addMessage("Email sent", "user");
             typeMessage("Thank you!!! How can I assist you today?", "bot");
         })
@@ -241,7 +262,7 @@ function showIntroForm() {
         // REMOVE WHOLE BUBBLE ⭐
         document.getElementById("intro-bubble").remove();
 
-        addMessage("Hello! I’m here to help you learn more about my work and expertise. <br><br>Could you tell me more about yourself?", "bot")
+        addMessage(promptText, "bot")
         addMessage("Skipped", "user");
         typeMessage("How can I assist you today?", "bot");
     });
