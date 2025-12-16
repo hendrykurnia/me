@@ -105,7 +105,9 @@ inputField.addEventListener('keydown', function(e) {
         // delay before bot starts typing
         setTimeout(async () => {
             removeTypingIndicator();
-            await typeMessage(botReply, 'bot');
+            if (botReply !== null) {
+                await typeMessage(botReply, 'bot');
+            }
         }, 600);
     }
 });
@@ -202,7 +204,12 @@ function getResponse(input) {
         }
     }
 
-    return "I’m not able to provide that information at this moment. Please call <a href='tel:6692389972'>(669)238-9972</a> or <br> email to <a href='mailto:hendry.itbizpro@gmail.com'>hendry.itbizpro@gmail.com</a> for more details.";
+    // Show contact form if the chatbot is unable to answer
+    showIntroForm(
+        "I’m not able to provide that information at this moment. Please fill out your details and I will get back to you shortly:"
+    );//"I’m not able to provide that information at this moment. Please call <a href='tel:6692389972'>(669)238-9972</a> or <br> email to <a href='mailto:hendry.itbizpro@gmail.com'>hendry.itbizpro@gmail.com</a> for more details.";
+
+    return null;
 }
 
 function isValidEmail(email) {
