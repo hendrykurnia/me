@@ -4,8 +4,25 @@ const inputField = document.getElementById('chatbot-input');
 const header = document.getElementById('chatbot-header');
 const chatbotContainer = document.getElementById('chatbot-container');
 const chatbotBubble = document.getElementById('chatbot-bubble');
-const knowledgebase_url = "https://profile-hendry.s3.us-west-1.amazonaws.com/knowledgebase.csv";
 const contactKeywords = ['contact', 'reach out', 'get in touch', 'connect'];
+
+// --- Knowledgebase URL ---
+/*
+AWS S3 CORS Policy Explanation:
+
+[
+    {
+        "AllowedHeaders": ["*"],       // Allow all headers in the request (e.g., Authorization, Content-Type)
+        "AllowedMethods": ["GET"],     // Only allow GET requests to access S3 objects
+        "AllowedOrigins": ["*"],       // Allow requests from any origin (any website)
+        "ExposeHeaders": []            // No headers are exposed to the browser in the response
+    }
+]
+
+This policy allows any website to fetch S3 objects via GET requests, 
+with any request headers, but does not expose any response headers to the client.
+*/
+const knowledgebase_url = "https://profile-hendry.s3.us-west-1.amazonaws.com/knowledgebase.csv";
 
 let isOpen = false; // Initial state: closed
 let knowledgeBase = [];

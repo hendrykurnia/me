@@ -6,12 +6,35 @@ document.querySelectorAll(".experience-header").forEach(header => {
     });
 });
 
-document.getElementById('downloadResume').addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent default link behavior
+document.getElementById('downloadResume').addEventListener('click', async function(e) {
+    e.preventDefault();
+
+    const response = await fetch('https://download-hendry.s3.us-west-1.amazonaws.com/Hendry_Hendry_Resume.pdf');
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
     const link = document.createElement('a');
-    link.href = 'https://download-hendry.s3.us-west-1.amazonaws.com/Hendry_Hendry_Resume.pdf';
+    link.href = url;
     link.download = 'Hendry_Hendry_Resume.pdf';
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    link.remove();
+
+    window.URL.revokeObjectURL(url); // cleanup
 });
+
+/*
+AWS S3 CORS Policy Explanation:
+
+[
+    {
+        "AllowedHeaders": ["*"],       // Allow all headers in the request (e.g., Authorization, Content-Type)
+        "AllowedMethods": ["GET"],     // Only allow GET requests to access S3 objects
+        "AllowedOrigins": ["*"],       // Allow requests from any origin (any website)
+        "ExposeHeaders": []            // No headers are exposed to the browser in the response
+    }
+]
+
+This policy allows any website to fetch S3 objects via GET requests, 
+with any request headers, but does not expose any response headers to the client.
+*/
