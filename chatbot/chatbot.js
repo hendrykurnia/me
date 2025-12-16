@@ -4,7 +4,7 @@ const inputField = document.getElementById('chatbot-input');
 const header = document.getElementById('chatbot-header');
 const chatbotContainer = document.getElementById('chatbot-container');
 const chatbotBubble = document.getElementById('chatbot-bubble');
-const knowledgebase_url = "https://raw.githubusercontent.com/hendrykurnia/me/main/chatbot/knowledgebase.csv";
+const knowledgebase_url = "https://profile-hendry.s3.us-west-1.amazonaws.com/knowledgebase.csv";
 const contactKeywords = ['contact', 'reach out', 'get in touch', 'connect'];
 
 let isOpen = false; // Initial state: closed
