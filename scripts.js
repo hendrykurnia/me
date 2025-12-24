@@ -9,13 +9,14 @@ document.querySelectorAll(".experience-header").forEach(header => {
 document.getElementById('downloadResume').addEventListener('click', async function(e) {
     e.preventDefault();
 
-    const response = await fetch('https://download-hendry.s3.us-west-1.amazonaws.com/Hendry_Hendry_Resume.pdf');
+    const resumeFile = 'Hendry_Kurnia_Resume.pdf'
+    const response = await fetch('https://download-hendry.s3.us-west-1.amazonaws.com/' + resumeFile);
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'Hendry_Hendry_Resume.pdf';
+    link.download = resumeFile;
     document.body.appendChild(link);
     link.click();
     link.remove();
